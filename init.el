@@ -131,7 +131,14 @@
   (add-hook 'TeX-mode-hook 'linum-mode)
   (add-hook 'TeX-mode-hook 'hl-line-mode)
   (add-hook 'TeX-mode-hook 'flyspell-mode)
-  
+
+  (defun fd-switch-dictionary()
+    (interactive)
+    (let* ((dic ispell-current-dictionary)
+	   (change (if (string= dic "deutsch") "english" "deutsch")))
+      (ispell-change-dictionary change)
+      (message "Dictionary switched from %s to %s" dic change)
+      ))
   ;;
   ;; Global key shortcuts:  
   ;;
