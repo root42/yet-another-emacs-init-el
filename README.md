@@ -18,20 +18,35 @@ Installation is as simple as copying init.el to your ~/.emacs.d directory. I rec
 
 The following packages will be auto-installed upon first startup:
 
-   cider
-   clojure-mode
-   exec-path-from-shell
-   flycheck
-   neotree
-   js2-mode
-   paredit
-   helm
-   skewer-mode
-   tabbar
-   magit
-   auctex
-   reftex
+* cider
+* clojure-mode
+* exec-path-from-shell
+* flycheck
+* neotree
+* js2-mode
+* paredit
+* helm
+* skewer-mode
+* tabbar
+* magit
+* auctex
+* reftex
 
 # Shortcuts
 
 This init.el defines a number of useful shortcuts.
+
+Shortcut  | Description
+----------|-------------
+f3      | Runs ff-find-other-file, trying to switch between header and implementation for C/C++ programs.
+f4      | Toggles the last two used buffers.
+f5,f6 | If tabbar is enabled (tabbar-mode), navigates back/forward through tabs.
+C-tab,C-S-tab | Same as above.
+f8              | Kill current buffer.
+f9              | Run compile.
+M-?             | Run grep
+M-n             | Go to next error in compilation buffer.
+M-S-n           | Go to first error in compilation buffer.
+M->, M-<        | Go to next/previous Emacs frame.
+M-/             | Run autocompletion using company-complete.
+C-x o, C-x C-o  | Go forward/backward through Emacs windows.
