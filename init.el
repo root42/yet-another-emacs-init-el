@@ -161,6 +161,11 @@
   (server-start)
 
   ;;
+  ;; Neotree
+  ;;
+  (neotree)
+  
+  ;;
   ;; Customize
   ;;
   (custom-set-variables
