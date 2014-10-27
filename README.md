@@ -42,6 +42,7 @@ f3      | Runs ff-find-other-file, trying to switch between header and implement
 f4      | Toggles the last two used buffers.
 f5,f6 | If tabbar is enabled (tabbar-mode), navigates back/forward through tabs.
 C-tab,C-S-tab | Same as above.
+f7              | Toggle ispell dictionaries (german/english).
 f8              | Kill current buffer.
 f9              | Run compile.
 M-?             | Run grep
