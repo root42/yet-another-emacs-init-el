@@ -46,6 +46,7 @@
    'magit
    'auctex
    'reftex
+   'ggtags
    )
 
   ;;
