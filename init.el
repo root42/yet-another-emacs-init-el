@@ -172,6 +172,20 @@
   ;; Neotree
   ;;
   (neotree)
+
+  ;;
+  ;; Calendar
+  ;;
+  (copy-face font-lock-constant-face 'calendar-iso-week-face)
+  (set-face-attribute 'calendar-iso-week-face nil
+		      :height 0.7)
+  (setq calendar-intermonth-text
+	'(propertize
+	  (format "%2d"
+		  (car
+		   (calendar-iso-from-absolute
+		    (calendar-absolute-from-gregorian (list month day year)))))
+	  'font-lock-face 'calendar-iso-week-face))
   
   ;;
   ;; Customize
@@ -203,6 +217,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
+ '(company-clang-arguments (quote ("-I../include")))
  '(custom-enabled-themes (quote (misterioso)))
  '(global-auto-complete-mode t)
  '(haskell-mode-hook (quote (turn-on-haskell-indent flycheck-mode)))
