@@ -178,7 +178,7 @@
   ;;
   (copy-face font-lock-constant-face 'calendar-iso-week-face)
   (set-face-attribute 'calendar-iso-week-face nil
-		      :height 0.7)
+		      :height 1.0)
   (setq calendar-intermonth-text
 	'(propertize
 	  (format "%2d"
