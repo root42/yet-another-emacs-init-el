@@ -33,20 +33,20 @@
       (package-refresh-contents))
 
   (ensure-package-installed 
+   'auctex
    'cider
    'clojure-mode
    'exec-path-from-shell
    'flycheck
-   'neotree
-   'js2-mode
-   'paredit
+   'ggtags
    'helm
+   'js2-mode
+   'magit
+   'neotree
+   'paredit
+   'reftex
    'skewer-mode
    'tabbar
-   'magit
-   'auctex
-   'reftex
-   'ggtags
    )
 
   ;;
@@ -140,6 +140,15 @@
       (ispell-change-dictionary change)
       (message "Dictionary switched from %s to %s" dic change)
       ))
+
+  ;;
+  ;; C++/C stuff
+  ;;
+  (add-hook 'c-mode-common-hook
+	    (lambda ()
+	      (when (and (derived-mode-p 'c-mode 'c++-mode 'java-mode) (require 'ggtags nil 'noerror))
+		(ggtags-mode 1))))
+  
   ;;
   ;; Global key shortcuts:  
   ;;
