@@ -6,10 +6,27 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 ;;
+;; Customize stuff
+;;
+(setq custom-file (expand-file-name "custom.el" (or (file-name-directory load-file-name) default-directory)))
+(load custom-file)
+
+;;
 ;; After init hook
 ;;
-(add-hook 'after-init-hook 'my-after-init-hook)
-(defun my-after-init-hook ()
+(add-hook 'emacs-startup-hook 'my-emacs-startup-hook)
+(defun my-emacs-startup-hook ()
+
+  ;;
+  ;; Set up the coding system
+  ;;
+  (prefer-coding-system 'utf-8)
+  ;; ;; Suggested by bbatsov in https://github.com/clojure-emacs/clojure-mode/issues/252
+  ;; (set-language-environment 'utf-8)
+  ;; (setq locale-coding-system 'utf-8)
+  ;; (set-default-coding-systems 'utf-8)
+  ;; (set-terminal-coding-system 'utf-8)
+
 
   ;;
   ;; Make sure all packages are installed
@@ -77,8 +94,6 @@
   ;;
   ;; Autocomplete
   ;;
-  ; (require 'auto-complete)
-  ; (global-auto-complete-mode)
   (global-company-mode)
 
   ;;
@@ -195,45 +210,4 @@
 		   (calendar-iso-from-absolute
 		    (calendar-absolute-from-gregorian (list month day year)))))
 	  'font-lock-face 'calendar-iso-week-face))
-  
-  ;;
-  ;; Customize
-  ;;
-  (custom-set-variables
-   ;; custom-set-variables was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   '(column-number-mode t)
-   '(custom-enabled-themes (quote (misterioso)))
-   '(global-auto-complete-mode t)
-   '(mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
-   '(ns-alternate-modifier (quote none))
-   '(ns-command-modifier (quote meta))
-   '(scroll-conservatively 1000)
-   '(show-paren-mode t)
-   '(truncate-lines t)
-   '(visible-bell t)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(column-number-mode t)
- '(company-clang-arguments (quote ("-I../include")))
- '(custom-enabled-themes (quote (misterioso)))
- '(global-auto-complete-mode t)
- '(haskell-mode-hook (quote (turn-on-haskell-indent flycheck-mode)))
- '(mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
- '(ns-alternate-modifier (quote none))
- '(ns-command-modifier (quote meta))
- '(scroll-conservatively 1000)
- '(show-paren-mode t)
- '(truncate-lines t)
- '(visible-bell t))
+  )
