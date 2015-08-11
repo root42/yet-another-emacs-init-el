@@ -168,6 +168,7 @@
   ;;
   ;; Global key shortcuts:  
   ;;
+  (global-set-key [f2] 'dabbrev-completion)
   (add-hook 'c-mode-common-hook
 	    '(lambda ()
 	       (define-key c-mode-base-map [f3] 'ff-find-other-file)))
