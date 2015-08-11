@@ -9,6 +9,7 @@
 ;; Customize stuff
 ;;
 (setq custom-file (expand-file-name "custom.el" (or (file-name-directory load-file-name) default-directory)))
+(setq user-init-file load-file-name)
 (load custom-file)
 
 ;;
