@@ -14,7 +14,7 @@ Installation is as simple as copying init.el to your ~/.emacs.d directory. I rec
     cd ~/.emacs.d
     ln -s ../yet-another-emacs-init-el/init.el .
 
-## Installing to a cusomt place
+## Installing to a custom place
 
 You can also put this package at some arbitrary place and tell emacs to use the init.el at this custom place:
 
