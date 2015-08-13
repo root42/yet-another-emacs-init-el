@@ -102,6 +102,7 @@
   ;;
   (add-hook 'prog-mode-hook 'linum-mode)
   (add-hook 'prog-mode-hook 'hl-line-mode)
+  (add-hook 'prog-mode-hook 'fci-mode)
 
   ;;
   ;; Paredit stuff
