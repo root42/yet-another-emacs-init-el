@@ -58,6 +58,7 @@
    'flycheck
    'ggtags
    'helm
+   'jedi
    'js2-mode
    'magit
    'neotree
@@ -70,6 +71,8 @@
   ;;
   ;; Python
   ;;
+  (add-hook 'python-mode-hook 'jedi:setup)
+  (setq jedi:complete-on-dot t)
   ;; (add-to-list 'load-path "/opt/local/share/emacs/site-lisp/")
   ;; (autoload 'pymacs-apply "pymacs")
   ;; (autoload 'pymacs-call "pymacs")
