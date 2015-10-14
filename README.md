@@ -33,6 +33,7 @@ The following packages will be auto-installed upon first startup:
 * exec-path-from-shell
 * flycheck
 * neotree
+* jedi
 * js2-mode
 * paredit
 * helm
