@@ -110,12 +110,17 @@
   (add-hook 'cider-repl-mode-hook 'paredit-mode)
   (add-hook 'cider-repl-mode-hook 'subword-mode)
   (add-hook 'cider-mode-hook 
-	    '(lambda () (add-hook 'after-save-hook 
-				  '(lambda () 
-				     (if (and (boundp 'cider-mode) cider-mode)
-					 (cider-namespace-refresh)
-				       )))))
+  	    '(lambda () (add-hook 'after-save-hook 
+  				  '(lambda () 
+  				     (if (and (boundp 'cider-mode) cider-mode)
+  					 (cider-refresh)
+  				       )))))
 
+  ;; (add-hook 'cider-mode-hook 
+  ;; 	    '(lambda () (add-hook 'after-save-hook 'cider-refresh)))
+
+  ;; (add-hook 'after-save-hook 'cider-refresh)
+  
   (defun cider-namespace-refresh ()
     (interactive)
     (cider-interactive-eval
@@ -152,6 +157,7 @@
   ;;
   ;; Global key shortcuts:  
   ;;
+  (global-set-key [f1] 'cider-refresh)
   (add-hook 'c-mode-common-hook
 	    '(lambda ()
 	       (define-key c-mode-base-map [f3] 'ff-find-other-file)))

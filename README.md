@@ -51,3 +51,4 @@ M-S-n           | Go to first error in compilation buffer.
 M->, M-<        | Go to next/previous Emacs frame.
 M-/             | Run autocompletion using company-complete.
 C-x o, C-x C-o  | Go forward/backward through Emacs windows.
+M-.             | Find tag using ggtags.
