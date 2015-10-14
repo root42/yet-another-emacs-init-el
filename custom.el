@@ -7,7 +7,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(c-basic-offset 3)
- '(cider-lein-command "~/bin/opt/bin/lein")
  '(column-number-mode t)
  '(custom-enabled-themes (quote (misterioso)))
  '(fill-column 110)

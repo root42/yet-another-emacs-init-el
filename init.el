@@ -130,20 +130,17 @@
   (add-hook 'clojure-mode-hook 'paredit-mode)
   (add-hook 'cider-repl-mode-hook 'paredit-mode)
   (add-hook 'cider-repl-mode-hook 'subword-mode)
-  (add-hook 'cider-mode-hook 
+  (add-hook 'cider-mode-hook
   	    '(lambda () (add-hook 'after-save-hook 
-  				  '(lambda () 
-  				     (if (and (boundp 'cider-mode) cider-mode)
-  					 (cider-refresh)
-  				       )))))
+  				  'my-cider-refresh)))
 
-  (defun cider-namespace-refresh ()
-    (interactive)
-    (cider-interactive-eval
-     "(require 'clojure.tools.namespace.repl)
-    (clojure.tools.namespace.repl/refresh)"))
-
-  (define-key clojure-mode-map (kbd "C-c C-r") 'cider-namespace-refresh)
+  (defun my-cider-refresh ()
+    (if (and (boundp 'cider-mode) cider-mode)
+        (cider-refresh 1)
+      )
+    )
+  
+  (define-key clojure-mode-map (kbd "C-c C-r") 'cider-refresh)
 
   ;;
   ;; LaTeX stuff
