@@ -6,10 +6,28 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 ;;
+;; Customize stuff
+;;
+(setq custom-file (expand-file-name "custom.el" (or (file-name-directory load-file-name) default-directory)))
+(setq user-init-file load-file-name)
+(load custom-file)
+
+;;
 ;; After init hook
 ;;
-(add-hook 'after-init-hook 'my-after-init-hook)
-(defun my-after-init-hook ()
+(add-hook 'emacs-startup-hook 'my-emacs-startup-hook)
+(defun my-emacs-startup-hook ()
+
+  ;;
+  ;; Set up the coding system
+  ;;
+  (prefer-coding-system 'utf-8)
+  ;; ;; Suggested by bbatsov in https://github.com/clojure-emacs/clojure-mode/issues/252
+  ;; (set-language-environment 'utf-8)
+  ;; (setq locale-coding-system 'utf-8)
+  ;; (set-default-coding-systems 'utf-8)
+  ;; (set-terminal-coding-system 'utf-8)
+
 
   ;;
   ;; Make sure all packages are installed
@@ -40,6 +58,7 @@
    'flycheck
    'ggtags
    'helm
+   'jedi
    'js2-mode
    'magit
    'neotree
@@ -52,6 +71,8 @@
   ;;
   ;; Python
   ;;
+  (add-hook 'python-mode-hook 'jedi:setup)
+  (setq jedi:complete-on-dot t)
   ;; (add-to-list 'load-path "/opt/local/share/emacs/site-lisp/")
   ;; (autoload 'pymacs-apply "pymacs")
   ;; (autoload 'pymacs-call "pymacs")
@@ -77,8 +98,6 @@
   ;;
   ;; Autocomplete
   ;;
-  ; (require 'auto-complete)
-  ; (global-auto-complete-mode)
   (global-company-mode)
 
   ;;
@@ -86,6 +105,8 @@
   ;;
   (add-hook 'prog-mode-hook 'linum-mode)
   (add-hook 'prog-mode-hook 'hl-line-mode)
+  ;; Uncomment when this bug is fixed: https://github.com/alpaker/Fill-Column-Indicator/issues/54
+  ;(add-hook 'prog-mode-hook 'fci-mode)
 
   ;;
   ;; Paredit stuff
@@ -116,11 +137,6 @@
   					 (cider-refresh)
   				       )))))
 
-  ;; (add-hook 'cider-mode-hook 
-  ;; 	    '(lambda () (add-hook 'after-save-hook 'cider-refresh)))
-
-  ;; (add-hook 'after-save-hook 'cider-refresh)
-  
   (defun cider-namespace-refresh ()
     (interactive)
     (cider-interactive-eval
@@ -158,6 +174,7 @@
   ;; Global key shortcuts:  
   ;;
   (global-set-key [f1] 'cider-refresh)
+  (global-set-key [f2] 'dabbrev-completion)
   (add-hook 'c-mode-common-hook
 	    '(lambda ()
 	       (define-key c-mode-base-map [f3] 'ff-find-other-file)))
@@ -201,45 +218,4 @@
 		   (calendar-iso-from-absolute
 		    (calendar-absolute-from-gregorian (list month day year)))))
 	  'font-lock-face 'calendar-iso-week-face))
-  
-  ;;
-  ;; Customize
-  ;;
-  (custom-set-variables
-   ;; custom-set-variables was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   '(column-number-mode t)
-   '(custom-enabled-themes (quote (misterioso)))
-   '(global-auto-complete-mode t)
-   '(mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
-   '(ns-alternate-modifier (quote none))
-   '(ns-command-modifier (quote meta))
-   '(scroll-conservatively 1000)
-   '(show-paren-mode t)
-   '(truncate-lines t)
-   '(visible-bell t)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(column-number-mode t)
- '(company-clang-arguments (quote ("-I../include")))
- '(custom-enabled-themes (quote (misterioso)))
- '(global-auto-complete-mode t)
- '(haskell-mode-hook (quote (turn-on-haskell-indent flycheck-mode)))
- '(mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
- '(ns-alternate-modifier (quote none))
- '(ns-command-modifier (quote meta))
- '(scroll-conservatively 1000)
- '(show-paren-mode t)
- '(truncate-lines t)
- '(visible-bell t))
+  )
