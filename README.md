@@ -48,6 +48,7 @@ This init.el defines a number of useful shortcuts.
 
 Shortcut  | Description
 ----------|-------------
+f1      | Runs cider-refresh which reloads all clojure classes in the current cider REPL.
 f2      | Runs dabbrev-expand, which tries to cleverly complete the symbol at point.
 f3      | Runs ff-find-other-file, trying to switch between header and implementation for C/C++ programs.
 f4      | Toggles the last two used buffers.
