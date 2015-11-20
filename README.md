@@ -13,6 +13,7 @@ Installation is as simple as copying init.el to your ~/.emacs.d directory. I rec
     git clone https://github.com/root42/yet-another-emacs-init-el
     cd ~/.emacs.d
     ln -s ../yet-another-emacs-init-el/init.el .
+    cp ../yet-another-emacs-init-el/custom.el .
 
 ## Installing to a custom place
 
