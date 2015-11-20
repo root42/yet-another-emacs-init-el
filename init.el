@@ -1,16 +1,12 @@
+(setq user-init-file (or load-file-name (buffer-file-name)))
+(setq user-emacs-directory (file-name-directory user-init-file))
+
 ;;
 ;; Initialize package management
 ;;
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
-;;
-;; Customize stuff
-;;
-(setq custom-file (expand-file-name "custom.el" (or (file-name-directory load-file-name) default-directory)))
-(setq user-init-file load-file-name)
-(load custom-file)
 
 ;;
 ;; After init hook
@@ -54,6 +50,7 @@
    'auctex
    'cider
    'clojure-mode
+   'company
    'exec-path-from-shell
    'flycheck
    'ggtags
@@ -67,6 +64,12 @@
    'skewer-mode
    'tabbar
    )
+
+  ;;
+  ;; Customize stuff
+  ;;
+  (setq custom-file (expand-file-name "custom.el" (or (file-name-directory user-init-file) default-directory)))
+  (load custom-file)
 
   ;;
   ;; Python
