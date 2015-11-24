@@ -96,7 +96,9 @@
   ;; OS X specifics
   ;;
   (when (memq window-system '(mac ns))
-    (exec-path-from-shell-initialize))
+    (exec-path-from-shell-initialize)
+    (setq ns-right-alternate-modifier nil)
+    )
 
   ;;
   ;; Autocomplete
