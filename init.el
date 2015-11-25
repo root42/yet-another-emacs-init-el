@@ -195,6 +195,7 @@
   (global-set-key "\M-<" (lambda() (interactive) (other-frame 1)))
   (global-set-key "\M->" (lambda() (interactive) (other-frame -1)))
   (global-set-key (kbd "M-/") 'company-complete)
+  (global-set-key (kbd "<C-return>") 'company-complete)
   (global-set-key (kbd "C-x C-o") '(lambda() (interactive (other-window -1))))
 
   ;;
@@ -220,4 +221,14 @@
 		   (calendar-iso-from-absolute
 		    (calendar-absolute-from-gregorian (list month day year)))))
 	  'font-lock-face 'calendar-iso-week-face))
+
+  ;;
+  ;; Compilation buffer
+  ;;
+  (require 'ansi-color)
+  (defun colorize-compilation-buffer ()
+    (toggle-read-only)
+    (ansi-color-apply-on-region compilation-filter-start (point))
+    (toggle-read-only))
+  (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
   )
