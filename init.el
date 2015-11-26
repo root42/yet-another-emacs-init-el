@@ -36,9 +36,9 @@
        ;; (package-installed-p 'evil)
        (if (package-installed-p package)
 	   nil
-	 (if (y-or-n-p (format "Package %s is missing. Install it? " package))
-	     (package-install package)
-	   package)))
+         (package-install package)
+	 (if (y-or-n-p (format "Package %s is missing. Install it? " package)) package)
+         ))
      packages))
 
   ;; make sure to have downloaded archive description.
@@ -98,6 +98,7 @@
   (when (memq window-system '(mac ns))
     (exec-path-from-shell-initialize)
     (setq ns-right-alternate-modifier nil)
+    (global-set-key (kbd "A-SPC") 'just-one-space)
     )
 
   ;;
