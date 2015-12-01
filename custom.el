@@ -7,8 +7,15 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(c-basic-offset 3)
+ '(c-default-style
+   (quote
+    ((java-mode . "java")
+     (awk-mode . "awk")
+     (other . "bsd"))))
+ '(c-offsets-alist (quote ((arglist-intro . +) (arglist-close . 0))))
  '(column-number-mode t)
  '(custom-enabled-themes (quote (misterioso)))
+ '(electric-indent-mode t)
  '(fill-column 110)
  '(global-auto-complete-mode t)
  '(global-subword-mode t)
