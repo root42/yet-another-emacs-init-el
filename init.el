@@ -6,7 +6,7 @@
 ;;
 (require 'package)
 (package-initialize)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 ;;
 ;; After init hook
@@ -72,6 +72,17 @@
   (load custom-file)
 
   ;;
+  ;; FIXME: malabar
+  ;;
+  (load-file "~/Programs/cedet/cedet-devel-load.el")
+  (add-hook 'after-init-hook (lambda ()
+                               (message "activate-malabar-mode")
+                               (activate-malabar-mode)))
+
+  (add-hook 'malabar-java-mode-hook 'flycheck-mode)
+  (add-hook 'malabar-groovy-mode-hook 'flycheck-mode)
+
+  ;;
   ;; Python
   ;;
   (add-hook 'python-mode-hook 'jedi:setup)
@@ -111,6 +122,8 @@
   ;;
   (add-hook 'prog-mode-hook 'linum-mode)
   (add-hook 'prog-mode-hook 'hl-line-mode)
+  (add-hook 'nxml-mode-hook 'linum-mode)
+  (add-hook 'nxml-mode-hook 'hl-line-mode)
   ;; Uncomment when this bug is fixed: https://github.com/alpaker/Fill-Column-Indicator/issues/54
   ;(add-hook 'prog-mode-hook 'fci-mode)
 
@@ -232,4 +245,5 @@
     (ansi-color-apply-on-region compilation-filter-start (point))
     (toggle-read-only))
   (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
-  )
+
+)
