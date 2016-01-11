@@ -37,7 +37,7 @@
        (if (package-installed-p package)
 	   nil
          (package-install package)
-	 (if (y-or-n-p (format "Package %s is missing. Install it? " package)) package)
+         package
          ))
      packages))
 
