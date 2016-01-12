@@ -63,6 +63,7 @@
    'reftex
    'skewer-mode
    'tabbar
+   'ecb
    )
 
   ;;
@@ -209,8 +210,14 @@
   ;;
   ;; Neotree
   ;;
-  (neotree)
+  ;(neotree)
 
+  ;;
+  ;; ECB
+  ;;
+  (setq ecb-examples-bufferinfo-buffer-name nil)
+  (ecb-activate)
+  
   ;;
   ;; Calendar
   ;;
