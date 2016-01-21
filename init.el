@@ -24,7 +24,12 @@
   ;; (set-default-coding-systems 'utf-8)
   ;; (set-terminal-coding-system 'utf-8)
 
-
+  ;;
+  ;; CEDET / Semantic
+  ;;
+  (load-file "~/bin/yet-another-emacs-init-el/cedet/cedet-devel-load.el")
+  (semantic-mode 1)
+  
   ;;
   ;; Make sure all packages are installed
   ;; 

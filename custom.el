@@ -15,7 +15,9 @@
  '(c-offsets-alist (quote ((arglist-intro . +) (arglist-close . 0))))
  '(column-number-mode t)
  '(custom-enabled-themes (quote (misterioso)))
- '(electric-indent-mode t)
+ '(electric-indent-mode t) '(ecb-layout-name "left3")
+ '(ecb-options-version "2.40")
+ '(ecb-tip-of-the-day nil)
  '(fill-column 110)
  '(global-auto-complete-mode t)
  '(global-subword-mode t)
@@ -38,4 +40,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ecb-default-highlight-face ((t (:background "DarkOrange1"))))
+ '(ecb-directory-face ((t (:inherit ecb-default-highlight-face :background "DarkOrange1"))))
  '(hl-line ((t (:background "dark cyan" :distant-foreground "white")))))
