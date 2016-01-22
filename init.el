@@ -69,6 +69,7 @@
    'skewer-mode
    'tabbar
    'ecb
+   'csv-mode
    )
 
   ;;
