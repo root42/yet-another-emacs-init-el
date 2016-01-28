@@ -29,6 +29,7 @@
   ;;
   (load-file "~/bin/yet-another-emacs-init-el/cedet/cedet-devel-load.el")
   (semantic-mode 1)
+  (global-semantic-idle-completions-mode nil)
   
   ;;
   ;; Make sure all packages are installed
@@ -181,7 +182,10 @@
 	    (lambda ()
 	      (when (and (derived-mode-p 'c-mode 'c++-mode 'java-mode) (require 'ggtags nil 'noerror))
 		(ggtags-mode 1))))
-  
+  (add-to-list 'auto-mode-alist '("\\.hdf\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.model\\'" . c++-mode))
+ 
   ;;
   ;; Global key shortcuts:  
   ;;

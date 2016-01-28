@@ -30,6 +30,8 @@
  '(nxml-child-indent 3)
  '(nxml-outline-child-indent 3)
  '(scroll-conservatively 1000)
+ '(semantic-complete-inline-analyzer-idle-displayor-class (quote semantic-displayor-traditional))
+ '(semantic-completion-displayor-format-tag-function (quote ignore))
  '(sgml-basic-offset 3)
  '(show-paren-mode t)
  '(tabbar-mode t nil (tabbar))
