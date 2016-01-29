@@ -70,7 +70,6 @@
    'jedi
    'js2-mode
    'magit
-   'neotree
    'paredit
    'reftex
    'skewer-mode
@@ -90,15 +89,6 @@
   ;;
   (add-hook 'python-mode-hook 'jedi:setup)
   (setq jedi:complete-on-dot t)
-  ;; (add-to-list 'load-path "/opt/local/share/emacs/site-lisp/")
-  ;; (autoload 'pymacs-apply "pymacs")
-  ;; (autoload 'pymacs-call "pymacs")
-  ;; (autoload 'pymacs-eval "pymacs" nil t)
-  ;; (autoload 'pymacs-exec "pymacs" nil t)
-  ;; (autoload 'pymacs-load "pymacs" nil t)
-
-  ;; (require 'pymacs)
-  ;; (pymacs-load "ropemacs" "rope-")
 
   ;;
   ;; Helm mode
