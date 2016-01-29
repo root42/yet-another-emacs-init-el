@@ -193,8 +193,8 @@
   (global-set-key [f2] 'dabbrev-completion)
   (add-hook 'c-mode-common-hook
 	    '(lambda ()
-	       (define-key c-mode-base-map [f3] 'ff-find-other-file)))
-  (global-set-key (kbd "<S-f3>") 'find-tag)
+	       (define-key c-mode-base-map [f3] 'aixigo-find-other-file)))
+  (global-set-key (kbd "<S-f3>") 'ggtags-find-tag)
   (global-set-key [f4] (lambda() (interactive) (switch-to-buffer (other-buffer (current-buffer) nil))))
   (global-set-key [f5] 'tabbar-backward-tab)
   (global-set-key [f6] 'tabbar-forward-tab)
