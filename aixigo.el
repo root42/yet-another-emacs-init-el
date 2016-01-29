@@ -79,22 +79,53 @@
     )
   )
 
-((defun aixigo-get-external-modules-include (project-name)
-   "Returns the path to the external modules headers for a given project."
-   (list (concat (aixigo-get-project-path project-name) "/" aixigo-project-branch "/build/include/external_modules/")
-         (concat (aixigo-get-project-path project-name) "/" aixigo-project-branch "/build/include/external_modules/xercesc/")
-         (concat (aixigo-get-project-path project-name) "/" aixigo-project-branch "/build/include/external_modules/xerces/")
-         (concat (aixigo-get-project-path project-name) "/" aixigo-project-branch "/build/include/tools/")
-         )
-   )
+(defun aixigo-get-external-modules-include (project-name)
+  "Returns the path to the external modules headers for a given project."
+  (list (concat (aixigo-get-project-path project-name) "/" aixigo-project-branch "/build/include/external_modules/")
+        (concat (aixigo-get-project-path project-name) "/" aixigo-project-branch "/build/include/external_modules/xercesc/")
+        (concat (aixigo-get-project-path project-name) "/" aixigo-project-branch "/build/include/external_modules/xerces/")
+        (concat (aixigo-get-project-path project-name) "/" aixigo-project-branch "/build/include/tools/")
+        )
+  )
 
- defun aixigo-setup-project ()
- "Setup project in given path.")
+(defun aixigo-setup-project (project-path)
+  "Setup project in given path."
+  )
 
 (defun aixigo-choose-project ()
   "Choose a new project to use."
   (interactive)
   (setq aixigo-project-path (read-directory-name "Choose directory containing a project: " ))
-  (aixigo-setup-project)
+  (aixigo-setup-project aixigo-project-path)
   )
 
+(defun aixigo-header-p (file-name)
+  "Returns true if buffer seems to be a header file, nil otherwise"
+  (if (string-match "\\.\\(h\\|hdf\\)$" file-name)
+      t
+    nil
+    )
+  )
+
+(defun aixigo-find-other-file ()
+  "Tries to find C++ header or implementation of current buffer using GNU global."
+  (interactive)
+  (let ((file-name (buffer-file-name)))
+    (find-file
+     (with-temp-buffer
+       (shell-command
+        (format "global -P '%s/%s.%s'"
+                (file-name-nondirectory (directory-file-name (file-name-directory file-name)))
+                (file-name-sans-extension (file-name-nondirectory file-name))
+                (if (aixigo-header-p file-name)
+                    "c"
+                  "h"
+                  )
+                )
+        (current-buffer)
+        )
+       (car (last (split-string (buffer-string) "\n" t)))
+       )
+     )
+    )
+  )
