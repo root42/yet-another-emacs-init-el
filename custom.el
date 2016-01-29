@@ -46,4 +46,4 @@
  ;; If there is more than one, they won't work right.
  '(ecb-default-highlight-face ((t (:background "DarkOrange1"))))
  '(ecb-directory-face ((t (:inherit ecb-default-highlight-face :background "DarkOrange1"))))
- '(hl-line ((t (:background "dark cyan" :distant-foreground "white")))))
+ '(hl-line ((t (:background "#212931" :distant-foreground "white")))))
