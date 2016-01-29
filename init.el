@@ -1,5 +1,6 @@
 (setq user-init-file (or load-file-name (buffer-file-name)))
 (setq user-emacs-directory (file-name-directory user-init-file))
+(setq user-true-init-file-directory (file-name-directory (file-truename user-init-file)))
 
 ;;
 ;; Initialize package management
@@ -15,6 +16,11 @@
 (defun my-emacs-startup-hook ()
 
   ;;
+  ;; Aixigo setup
+  ;;
+  (load-file (format "%saixigo.el" user-true-init-file-directory))
+  
+  ;;
   ;; Set up the coding system
   ;;
   (prefer-coding-system 'utf-8)
@@ -27,7 +33,7 @@
   ;;
   ;; CEDET / Semantic
   ;;
-  (load-file "~/bin/yet-another-emacs-init-el/cedet/cedet-devel-load.el")
+  (load-file (format "%scedet/cedet-devel-load.el" user-true-init-file-directory))
   (semantic-mode 1)
   (global-semantic-idle-completions-mode nil)
   
