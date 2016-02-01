@@ -129,3 +129,14 @@
      )
     )
   )
+
+(defun aixigo-comment-or-uncomment-line-or-region ()
+  "Comments or uncomments the current line."
+  (interactive)
+  (if (region-active-p)
+      (comment-or-uncomment-region (region-beginning) (region-end))
+    (comment-or-uncomment-region (line-beginning-position) (line-end-position))
+    )
+  )
+
+(define-key c-mode-base-map (kbd "C-/") 'aixigo-comment-or-uncomment-line-or-region)
