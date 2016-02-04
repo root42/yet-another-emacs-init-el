@@ -33,12 +33,14 @@
 
 (defun aixigo-get-project-includes ()
   "Returns a list of all C++ include directories for the given project, which can be passed to the compiler."
+  (interactive)
   (let (
         (fname (buffer-file-name))
         )
     (with-temp-buffer
-      (eshell-command 
-       (format "%s %s/modules/ %s/models/ -name include -type d -printf %%p\\n | sort" 
+      (setq default-directory (aixigo-get-current-project-path-base fname))
+      (shell-command 
+       (format "%s %s/modules/ %s/models/ -name include -type d | sort" 
                aixigo-find-command
                (aixigo-get-local-file-part (aixigo-get-current-project-path-base fname)) 
                (aixigo-get-local-file-part (aixigo-get-current-project-path-base fname)) 
@@ -47,7 +49,7 @@
        )
       (split-string (buffer-string) "\n" t)
       )
-    ) 
+    )
   )
 
 (defun aixigo-get-external-modules-includes ()
@@ -57,7 +59,7 @@
         )
     (with-temp-buffer
       (eshell-command
-       (format "%s %s/build/include/external_modules -maxdepth 1 -mindepth 1 -type d -printf %%p\\n | sort"
+       (format "%s %s/build/include/external_modules -maxdepth 1 -mindepth 1 -type d | sort"
                aixigo-find-command
                (aixigo-get-local-file-part (aixigo-get-current-project-path-base fname))
                )
