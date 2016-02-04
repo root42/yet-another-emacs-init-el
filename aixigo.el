@@ -11,9 +11,10 @@
 (defgroup aixigo nil
   "This customization group contains all the aixigo specific settings for Emacs.")
 
-(defcustom aixigo-project-name "commerzbank_zpk_performance_analyzer"
-  "This is the current aixigo project name."
+(defcustom aixigo-find-command "find"
+  "The command used to find include directories. On OS X, gfind is needed, on Linux find"
   :group 'aixigo
+  :type 'directory
   )
 
 ;;
@@ -22,85 +23,137 @@
 (defun aixigo-get-system-includes ()
   "Returns the default C++ system search paths, as returned by the system C pre-processor."
   (with-temp-buffer
-    (shell-command
-     "echo | gcc -x c++ -v -E /dev/null 2>&1 | egrep '^ .*include' | sed 's/^ //g'"
+    (eshell-command
+     "echo | gcc -x c++ -v -E /dev/null | egrep '^ .*include' | sed 's/^ //g'"
      (current-buffer) 
      )
     (split-string (buffer-string) "\n" t)
     )
   )
 
-(defun aixigo-get-project-path (project-name)
-  "Returns the absolute path to the project source, based on the user login name and given project name."
-  (format aixigo-project-path-base (user-login-name) project-name) )
-
-(defun aixigo-get-project-includes-full (project-name)
-  "Returns a list of all directories containing the C++ header files of the given project."
-  (aixigo-get-certain-directories-full project-name "include")
-)
-
-(defun aixigo-get-project-sources-full (project-name)
-  "Returns a list of all directories containing the C++ header files of the given project."
-  (aixigo-get-certain-directories-full project-name "src")
-)
-
-(defun aixigo-get-certain-directories-full (project-name directory-name)
-  "Returns a list of all directories of a certain name (e.g. src, include) for the given project."
-  (with-temp-buffer
-    (shell-command 
-     ;; find ./HEAD/models/ ./HEAD/modules/ -wholename "*/include/*" -and -not -name "*CVS" -type d -printf \"%p\"\\n | sort
-     (format "%s %s/%s/models/ %s/%s/modules/ \\( -wholename \"*/%s/*\" -or -wholename \"*/%s\" \\) -and -not -name \"*CVS\" -type d -printf %%p\\\\n | sort" 
-             aixigo-find-command
-             (aixigo-get-project-path project-name)
-             aixigo-project-branch
-             (aixigo-get-project-path project-name)
-             aixigo-project-branch
-             directory-name
-             directory-name
-             )
-     (current-buffer) )
-    (split-string (buffer-string) "\n" t) ) )
-
-(defun aixigo-get-project-includes (project-name)
+(defun aixigo-get-project-includes ()
   "Returns a list of all C++ include directories for the given project, which can be passed to the compiler."
-  (if (not (equal project-name nil) )
-      (with-temp-buffer
-        (shell-command 
-         ;; find ./HEAD/modules/ ./HEAD/models/ -wholename "*/include/*" -and -not -name "*CVS" -type d -printf \"%p\"\\n | sort
-         (format "%s %s/%s/modules/ %s/%s/models/ -name include -type d -printf %%p\\\\n | sort" 
-                 aixigo-find-command
-                 (aixigo-get-project-path project-name) 
-                 aixigo-project-branch
-                 (aixigo-get-project-path project-name) 
-                 aixigo-project-branch
-                 )
-         (current-buffer) )
-        (split-string (buffer-string) "\n" t) ) 
+  (let (
+        (fname (buffer-file-name))
+        )
+    (with-temp-buffer
+      (eshell-command 
+       (format "%s %s/modules/ %s/models/ -name include -type d -printf %%p\\n | sort" 
+               aixigo-find-command
+               (aixigo-get-local-file-part (aixigo-get-current-project-path-base fname)) 
+               (aixigo-get-local-file-part (aixigo-get-current-project-path-base fname)) 
+               )
+       (current-buffer)
+       )
+      (split-string (buffer-string) "\n" t)
+      )
+    ) 
+  )
+
+(defun aixigo-get-external-modules-includes ()
+  "Returns the path to the external modules headers for a given project."
+  (let (
+        (fname (buffer-file-name))
+        )
+    (with-temp-buffer
+      (eshell-command
+       (format "%s %s/build/include/external_modules -maxdepth 1 -mindepth 1 -type d -printf %%p\\n | sort"
+               aixigo-find-command
+               (aixigo-get-local-file-part (aixigo-get-current-project-path-base fname))
+               )
+       (current-buffer)
+       )
+      (message (buffer-string))
+      (split-string (buffer-string) "\n" t)
+      )
     )
   )
 
-(defun aixigo-get-external-modules-include (project-name)
-  "Returns the path to the external modules headers for a given project."
-  (list (concat (aixigo-get-project-path project-name) "/" aixigo-project-branch "/build/include/external_modules/")
-        (concat (aixigo-get-project-path project-name) "/" aixigo-project-branch "/build/include/external_modules/xercesc/")
-        (concat (aixigo-get-project-path project-name) "/" aixigo-project-branch "/build/include/external_modules/xerces/")
-        (concat (aixigo-get-project-path project-name) "/" aixigo-project-branch "/build/include/tools/")
-        )
-  )
-
-(defun aixigo-setup-project (project-path)
-  "Setup project in given path."
-  )
-
-(defun aixigo-choose-project ()
-  "Choose a new project to use."
+(defun aixigo-get-current-project-module-and-branch ( &optional optionalfname )
+  "Returns a tuple with the project name, module name and branch of the current buffer."
   (interactive)
-  (setq aixigo-project-path (read-directory-name "Choose directory containing a project: " ))
-  (aixigo-setup-project aixigo-project-path)
+  (let (
+        (fname (if optionalfname (file-truename optionalfname) (file-truename buffer-file-name)))
+        )
+    (if (string-match ".*/\\(.*\\)/\\(.*\\)/\\(platform_modules\\|modules\\|models\\)/\\([^/]*\\)/" fname)
+        (list
+         (match-string 1 fname)
+         (match-string 2 fname)
+         (match-string 3 fname)
+         )
+      (progn
+        (message "Could not determine project.")
+        nil)
+      )
+    )
+  )
+
+(defun aixigo-get-current-project ( &optional optionalfname )
+  "Returns the current project name."
+  (nth 0 (aixigo-get-current-project-module-and-branch optionalfname))
+  )
+
+(defun aixigo-get-current-branch ( &optional optionalfname )
+  "Returns the current branch name."
+  (nth 1 (aixigo-get-current-project-module-and-branch optionalfname))
+  )
+
+(defun aixigo-get-current-module ( &optional optionalfname )
+  "Returns the current module name."
+  (nth 2 (aixigo-get-current-project-module-and-branch optionalfname))
+  )
+
+(defun aixigo-get-current-project-path-base ( &optional optionalfname )
+  "Returns the current project path base string"
+  (interactive)
+  (let (
+        (fname (if optionalfname (file-truename optionalfname) (file-truename buffer-file-name)))
+        )
+    (string-match (format "\\(.*/%s\\)/.*" (aixigo-get-current-branch fname)) fname)
+    (match-string 1 fname)
+    )
+  )
+
+(defun aixigo-setup-current-project ()
+  "Sets up the project specific variables according to the current buffer's project."
+  (interactive)
+  (let (
+        (project-settings (aixigo-get-current-project-module-and-branch))
+        )
+    
+    (setq aixigo-project-name (nth 0 project-settings))
+    (setq aixigo-project-branch (nth 1 project-settings))
+    
+    (setq aixigo-clang-includes (aixigo-get-external-modules-includes))
+    (append aixigo-clang-includes (aixigo-get-system-includes))
+    (append aixigo-clang-includes (aixigo-get-project-includes))
+    
+    (setq company-clang-arguments
+          (mapcar (lambda (item) (concat "-I" item))
+                  aixigo-clang-includes
+                  )
+          )
+    )
+  )
+
+(defun aixigo-is-local-file-p (file-name)
+  "Returns t if file-name is a local file name, or nil if it is handled by tramp."
+  (if (string-match-p "/[[:alnum:]]*:[[:alnum:]]*:/.*" file-name)
+      nil
+    t
+    )
+  )
+
+(defun aixigo-get-local-file-part (file-name)
+  "Returns the local part of a path."
+  (if (aixigo-is-local-file-p file-name)
+      file-name
+    (tramp-file-name-localname (tramp-dissect-file-name file-name))
+    )
   )
 
 (defun aixigo-header-p (file-name)
-  "Returns true if buffer seems to be a header file, nil otherwise"
+  "Returns true if buffer seems to be a header file, nil otherwise."
   (if (string-match "\\.\\(h\\|hdf\\)$" file-name)
       t
     nil
@@ -113,7 +166,7 @@
   (let ((file-name (buffer-file-name)))
     (find-file
      (with-temp-buffer
-       (shell-command
+       (eshell-command
         (format "global -P '%s/%s.%s'"
                 (file-name-nondirectory (directory-file-name (file-name-directory file-name)))
                 (file-name-sans-extension (file-name-nondirectory file-name))
@@ -137,6 +190,30 @@
       (comment-or-uncomment-region (region-beginning) (region-end))
     (comment-or-uncomment-region (line-beginning-position) (line-end-position))
     )
+  )
+
+(defun aixigo-should-buffer-be-killed ( buffer )
+  "Tests if the given buffer should be killed. ECB buffers,
+messages and scratch will never be killed."
+  (not 
+   ( some
+    ( lambda (x)
+      ( string-prefix-p x ( buffer-name buffer ) )
+      )
+    '( "*scratch*" "*Messages*" " *ECB" )
+    )
+   )
+  )
+
+(defun kill-all-buffers ()
+  "Kills all buffers, except those given in aixigo-should-buffer-be-killed."
+  (interactive)
+  ( mapc 'kill-buffer
+        ( aixigo-filter
+         'aixigo-should-buffer-be-killed
+         ( buffer-list )
+         )
+        )
   )
 
 (define-key c-mode-base-map (kbd "C-/") 'aixigo-comment-or-uncomment-line-or-region)
