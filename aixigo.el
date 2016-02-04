@@ -134,6 +134,9 @@
                   )
           )
     )
+
+  (setq frame-title-format '( "" "%b @ Aixmacs24 " aixigo-project-name "/" aixigo-project-branch))
+
   )
 
 (defun aixigo-is-local-file-p (file-name)
