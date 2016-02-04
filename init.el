@@ -63,6 +63,8 @@
    'cider
    'clojure-mode
    'company
+   'csv-mode
+   'ecb
    'exec-path-from-shell
    'flycheck
    'ggtags
@@ -74,8 +76,6 @@
    'reftex
    'skewer-mode
    'tabbar
-   'ecb
-   'csv-mode
    )
 
   ;;
