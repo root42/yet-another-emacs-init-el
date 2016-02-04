@@ -22,12 +22,17 @@
 ;;
 (defun aixigo-get-system-includes ()
   "Returns the default C++ system search paths, as returned by the system C pre-processor."
-  (with-temp-buffer
-    (eshell-command
-     "echo | gcc -x c++ -v -E /dev/null | egrep '^ .*include' | sed 's/^ //g'"
-     (current-buffer) 
-     )
-    (split-string (buffer-string) "\n" t)
+  (let (
+        (fname (buffer-file-name))
+        )
+    (with-temp-buffer
+      (setq default-directory (aixigo-get-current-project-path-base fname))
+      (shell-command
+       "echo | gcc -x c++ -v -E /dev/null | egrep '^ .*include' | sed 's/^ //g'"
+       (current-buffer) 
+       )
+      (split-string (buffer-string) "\n" t)
+      )
     )
   )
 
@@ -58,7 +63,8 @@
         (fname (buffer-file-name))
         )
     (with-temp-buffer
-      (eshell-command
+      (setq default-directory (aixigo-get-current-project-path-base fname))
+      (shell-command
        (format "%s %s/build/include/external_modules -maxdepth 1 -mindepth 1 -type d | sort"
                aixigo-find-command
                (aixigo-get-local-file-part (aixigo-get-current-project-path-base fname))
@@ -122,7 +128,7 @@
   (let (
         (project-settings (aixigo-get-current-project-module-and-branch))
         )
-    
+
     (setq aixigo-project-name (nth 0 project-settings))
     (setq aixigo-project-branch (nth 1 project-settings))
     
@@ -171,7 +177,7 @@
   (let ((file-name (buffer-file-name)))
     (find-file
      (with-temp-buffer
-       (eshell-command
+       (shell-command
         (format "global -P '%s/%s.%s'"
                 (file-name-nondirectory (directory-file-name (file-name-directory file-name)))
                 (file-name-sans-extension (file-name-nondirectory file-name))
