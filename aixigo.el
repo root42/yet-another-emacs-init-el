@@ -72,18 +72,20 @@
   (let (
         (fname (buffer-file-name))
         )
-    (with-temp-buffer
-      (setq default-directory (aixigo-get-current-project-path-base fname))
-      (shell-command
-       (format "%s %s/build/include/external_modules -maxdepth 1 -mindepth 1 -type d | sort"
-               aixigo-find-command
-               (aixigo-get-local-file-part (aixigo-get-current-project-path-base fname))
+    (append (format "%s/build/include/external_modules" (aixigo-get-local-file-part (aixigo-get-current-project-path-base fname)))
+            (with-temp-buffer
+              (setq default-directory (aixigo-get-current-project-path-base fname))
+              (shell-command
+               (format "%s %s/build/include/external_modules -maxdepth 1 -mindepth 1 -type d | sort"
+                       aixigo-find-command
+                       (aixigo-get-local-file-part (aixigo-get-current-project-path-base fname))
+                       )
+               (current-buffer)
                )
-       (current-buffer)
-       )
-      (message (buffer-string))
-      (split-string (buffer-string) "\n" t)
-      )
+              (message (buffer-string))
+              (split-string (buffer-string) "\n" t)
+              )
+            )
     )
   )
 
@@ -143,8 +145,7 @@
     (setq aixigo-project-branch (nth 1 project-settings))
     
     (setq aixigo-clang-includes
-          (append ;(aixigo-get-system-includes)
-                  (aixigo-get-project-includes)
+          (append (aixigo-get-project-includes)
                   (aixigo-get-external-modules-includes)
                   )
           )
