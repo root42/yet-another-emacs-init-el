@@ -155,7 +155,7 @@
                   )
           )
     (setq flycheck-clang-args
-          (map (lambda (item) (concat "-I" item))
+          (mapcar (lambda (item) (concat "-I" item))
                aixigo-clang-includes
            )
           )
