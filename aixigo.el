@@ -1,3 +1,9 @@
+;;; package --- Aixigo specific code for code completion and navigation
+
+;;; Commentary:
+
+;;; Code:
+
 ;;
 ;; Aixigo settings
 ;;
@@ -12,23 +18,27 @@
   "This customization group contains all the aixigo specific settings for Emacs.")
 
 (defcustom aixigo-find-command "find"
-  "The command used to find include directories. On OS X, gfind is needed, on Linux find"
+  "The command used to find include directories.  On OS X, gfind is needed, on Linux find."
   :group 'aixigo
   :type 'directory
   )
+
+(defvar aixigo-clang-includes)
+(defvar aixigo-project-name)
+(defvar aixigo-project-branch)
 
 ;;
 ;; Utility functions for setting up the project paths
 ;;
 (defun aixigo-get-system-includes ()
-  "Returns the default C++ system search paths, as returned by the system C pre-processor."
+  "Return the default C++ system search paths, as returned by the system C pre-processor."
   (let (
         (fname (buffer-file-name))
         )
     (with-temp-buffer
       (setq default-directory (aixigo-get-current-project-path-base fname))
       (shell-command
-       "echo | gcc -x c++ -v -E /dev/null | egrep '^ .*include' | sed 's/^ //g'"
+       "echo | gcc -x c++ -v -E /dev/null 2>&1 | egrep '^ .*include' | sed 's/^ //g'"
        (current-buffer) 
        )
       (split-string (buffer-string) "\n" t)
@@ -37,7 +47,7 @@
   )
 
 (defun aixigo-get-project-includes ()
-  "Returns a list of all C++ include directories for the given project, which can be passed to the compiler."
+  "Return a list of all C++ include directories for the given project, which can be passed to the compiler."
   (interactive)
   (let (
         (fname (buffer-file-name))
@@ -58,7 +68,7 @@
   )
 
 (defun aixigo-get-external-modules-includes ()
-  "Returns the path to the external modules headers for a given project."
+  "Return the path to the external modules headers for a given project."
   (let (
         (fname (buffer-file-name))
         )
@@ -78,7 +88,7 @@
   )
 
 (defun aixigo-get-current-project-module-and-branch ( &optional optionalfname )
-  "Returns a tuple with the project name, module name and branch of the current buffer."
+  "Return a tuple with the project name, module name and branch of the current buffer or given OPTIONALFNAME."
   (interactive)
   (let (
         (fname (if optionalfname (file-truename optionalfname) (file-truename buffer-file-name)))
@@ -97,22 +107,22 @@
   )
 
 (defun aixigo-get-current-project ( &optional optionalfname )
-  "Returns the current project name."
+  "Return the project name of current buffer or OPTIONALFNAME."
   (nth 0 (aixigo-get-current-project-module-and-branch optionalfname))
   )
 
 (defun aixigo-get-current-branch ( &optional optionalfname )
-  "Returns the current branch name."
+  "Return the branch name of the current buffer OPTIONALFNAME."
   (nth 1 (aixigo-get-current-project-module-and-branch optionalfname))
   )
 
 (defun aixigo-get-current-module ( &optional optionalfname )
-  "Returns the current module name."
+  "Return the module name of current buffer or OPTIONALFNAME."
   (nth 2 (aixigo-get-current-project-module-and-branch optionalfname))
   )
 
 (defun aixigo-get-current-project-path-base ( &optional optionalfname )
-  "Returns the current project path base string"
+  "Return the project path base string for current buffer or OPTIONALFNAME."
   (interactive)
   (let (
         (fname (if optionalfname (file-truename optionalfname) (file-truename buffer-file-name)))
@@ -123,7 +133,7 @@
   )
 
 (defun aixigo-setup-current-project ()
-  "Sets up the project specific variables according to the current buffer's project."
+  "Set up the project specific variables according to the current buffer's project."
   (interactive)
   (let (
         (project-settings (aixigo-get-current-project-module-and-branch))
@@ -132,14 +142,22 @@
     (setq aixigo-project-name (nth 0 project-settings))
     (setq aixigo-project-branch (nth 1 project-settings))
     
-    (setq aixigo-clang-includes (aixigo-get-external-modules-includes))
-    (append aixigo-clang-includes (aixigo-get-system-includes))
-    (append aixigo-clang-includes (aixigo-get-project-includes))
-    
+    (setq aixigo-clang-includes
+          (append ;(aixigo-get-system-includes)
+                  (aixigo-get-project-includes)
+                  (aixigo-get-external-modules-includes)
+                  )
+          )
+
     (setq company-clang-arguments
           (mapcar (lambda (item) (concat "-I" item))
                   aixigo-clang-includes
                   )
+          )
+    (setq flycheck-clang-args
+          (map (lambda (item) (concat "-I" item))
+               aixigo-clang-includes
+           )
           )
     )
 
@@ -204,8 +222,8 @@
   )
 
 (defun aixigo-should-buffer-be-killed ( buffer )
-  "Tests if the given buffer should be killed. ECB buffers,
-messages and scratch will never be killed."
+  "Test if the given BUFFER should be killed.
+ECB buffers, messages and scratch will never be killed."
   (not 
    ( some
     ( lambda (x)
@@ -217,7 +235,7 @@ messages and scratch will never be killed."
   )
 
 (defun kill-all-buffers ()
-  "Kills all buffers, except those given in aixigo-should-buffer-be-killed."
+  "Kill all buffers, except those given in aixigo-should-buffer-be-killed."
   (interactive)
   ( mapc 'kill-buffer
         ( aixigo-filter
@@ -228,3 +246,5 @@ messages and scratch will never be killed."
   )
 
 (define-key c-mode-base-map (kbd "C-/") 'aixigo-comment-or-uncomment-line-or-region)
+
+;;; aixigo.el ends here

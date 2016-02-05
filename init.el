@@ -1,6 +1,12 @@
+;;; package --- This is yet another Emacs init.el file
+
+;;; Commentary:
+
+;;; Code:
+
 (setq user-init-file (or load-file-name (buffer-file-name)))
 (setq user-emacs-directory (file-name-directory user-init-file))
-(setq user-true-init-file-directory (file-name-directory (file-truename user-init-file)))
+(defvar user-true-init-file-directory (file-name-directory (file-truename user-init-file)))
 
 ;;
 ;; Initialize package management
@@ -88,7 +94,7 @@
   ;; Python
   ;;
   (add-hook 'python-mode-hook 'jedi:setup)
-  (setq jedi:complete-on-dot t)
+  (defvar jedi:complete-on-dot t)
 
   ;;
   ;; Helm mode
@@ -109,6 +115,7 @@
   ;; Autocomplete
   ;;
   (global-company-mode)
+  (global-flycheck-mode)
 
   ;;
   ;; Programming stuff
@@ -243,9 +250,9 @@
   ;;
   (require 'ansi-color)
   (defun colorize-compilation-buffer ()
-    (toggle-read-only)
+    (read-only-mode)
     (ansi-color-apply-on-region compilation-filter-start (point))
-    (toggle-read-only))
+    (read-only-mode))
   (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 )
