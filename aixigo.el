@@ -69,23 +69,22 @@
 
 (defun aixigo-get-external-modules-includes ()
   "Return the path to the external modules headers for a given project."
+  (interactive)
   (let (
         (fname (buffer-file-name))
         )
-    (append (format "%s/build/include/external_modules" (aixigo-get-local-file-part (aixigo-get-current-project-path-base fname)))
-            (with-temp-buffer
-              (setq default-directory (aixigo-get-current-project-path-base fname))
-              (shell-command
-               (format "%s %s/build/include/external_modules -maxdepth 1 -mindepth 1 -type d | sort"
-                       aixigo-find-command
-                       (aixigo-get-local-file-part (aixigo-get-current-project-path-base fname))
-                       )
-               (current-buffer)
+    (with-temp-buffer
+      (setq default-directory (aixigo-get-current-project-path-base fname))
+      (shell-command
+       (format "echo %s/build/include/external_modules ; %s %s/build/include/external_modules -maxdepth 1 -mindepth 1 -type d | sort"
+               (aixigo-get-local-file-part (aixigo-get-current-project-path-base fname))
+               aixigo-find-command
+               (aixigo-get-local-file-part (aixigo-get-current-project-path-base fname))
                )
-              (message (buffer-string))
-              (split-string (buffer-string) "\n" t)
-              )
-            )
+       (current-buffer)
+       )
+      (split-string (buffer-string) "\n" t)
+      )
     )
   )
 
