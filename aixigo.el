@@ -100,9 +100,7 @@
          (match-string 2 fname)
          (match-string 3 fname)
          )
-      (progn
-        (error "Could not determine project.")
-        nil)
+      (error "Could not determine project")
       )
     )
   )
@@ -143,7 +141,7 @@
             (compile (format "cd %s && ./install" (aixigo-get-local-file-part (match-string 0 fname))))
           (compile (format "ssh %s \"cd %s && ./install\"" (aixigo-get-remote-host-part fname) (aixigo-get-local-file-part (match-string 0 fname))))
           )
-      (error "Could not determine project module to compile.")
+      (error "Could not determine project module to compile")
       )
     )
   )
@@ -213,7 +211,7 @@
   )
 
 (defun aixigo-find-other-file ()
-  "Tries to find C++ header or implementation of current buffer using GNU global."
+  "Try to find C++ header or implementation of current buffer using GNU global."
   (interactive)
   (let ((file-name (buffer-file-name)))
     (find-file
