@@ -1,6 +1,10 @@
-;;
-;; Customize
-;;
+;;; package --- Some custom setting defaults.
+
+;;; Commentary:
+;;; Copy this file to your .emacs.d directory and customize to your likings.
+
+;;; Code:
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -31,11 +35,14 @@
  '(nxml-attribute-indent 3)
  '(nxml-child-indent 3)
  '(nxml-outline-child-indent 3)
+ '(package-pinned-packages (quote ((auto-complete . "blacklist"))))
  '(scroll-conservatively 1000)
  '(semantic-complete-inline-analyzer-idle-displayor-class (quote semantic-displayor-traditional))
  '(semantic-completion-displayor-format-tag-function (quote ignore))
+ '(server-mode t)
  '(sgml-basic-offset 3)
  '(show-paren-mode t)
+ '(standard-indent 3)
  '(tabbar-mode t nil (tabbar))
  '(truncate-lines t)
  '(visible-bell t))
@@ -47,3 +54,5 @@
  '(ecb-default-highlight-face ((t (:background "DarkOrange1"))))
  '(ecb-directory-face ((t (:inherit ecb-default-highlight-face :background "DarkOrange1"))))
  '(hl-line ((t (:background "#212931" :distant-foreground "white")))))
+
+;;; custom.el ends here
