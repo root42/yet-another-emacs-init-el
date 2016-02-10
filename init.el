@@ -206,6 +206,7 @@
   (global-set-key (kbd "<C-tab>") 'tabbar-forward-tab)
   (global-set-key [f8] (lambda() (interactive) (kill-buffer (current-buffer))))
   (global-set-key [f9] 'compile)
+  (global-set-key (kbd "<C-f9>") 'aixigo-compile-current-module)
   (global-set-key "\M-?" 'grep)
   (global-set-key "\M-n" 'next-error)
   (global-set-key "\M-\S-n" 'first-error)

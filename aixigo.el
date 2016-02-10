@@ -39,7 +39,7 @@
       (setq default-directory (aixigo-get-current-project-path-base fname))
       (shell-command
        "echo | gcc -x c++ -v -E /dev/null 2>&1 | egrep '^ .*include' | sed 's/^ //g'"
-       (current-buffer) 
+       (current-buffer)
        )
       (split-string (buffer-string) "\n" t)
       )
@@ -54,11 +54,11 @@
         )
     (with-temp-buffer
       (setq default-directory (aixigo-get-current-project-path-base fname))
-      (shell-command 
-       (format "%s %s/modules/ %s/models/ -name include -type d | sort" 
+      (shell-command
+       (format "%s %s/modules/ %s/models/ -name include -type d | sort"
                aixigo-find-command
-               (aixigo-get-local-file-part (aixigo-get-current-project-path-base fname)) 
-               (aixigo-get-local-file-part (aixigo-get-current-project-path-base fname)) 
+               (aixigo-get-local-file-part (aixigo-get-current-project-path-base fname))
+               (aixigo-get-local-file-part (aixigo-get-current-project-path-base fname))
                )
        (current-buffer)
        )
@@ -101,7 +101,7 @@
          (match-string 3 fname)
          )
       (progn
-        (message "Could not determine project.")
+        (error "Could not determine project.")
         nil)
       )
     )
@@ -124,12 +124,27 @@
 
 (defun aixigo-get-current-project-path-base ( &optional optionalfname )
   "Return the project path base string for current buffer or OPTIONALFNAME."
-  (interactive)
   (let (
         (fname (if optionalfname (file-truename optionalfname) (file-truename buffer-file-name)))
         )
     (string-match (format "\\(.*/%s\\)/.*" (aixigo-get-current-branch fname)) fname)
     (match-string 1 fname)
+    )
+  )
+
+(defun aixigo-compile-current-module ( &optional optionalfname)
+  "Return the path base string for the current buffer or OPTIONALFNAME."
+  (interactive)
+  (let (
+        (fname (if optionalfname (file-truename optionalfname) (file-truename buffer-file-name)))
+        )
+    (if (string-match ".*/\\(platform_modules\\|modules\\|models\\)/[^/]*/" fname)
+        (if (aixigo-is-local-file-p fname)
+            (compile (format "cd %s && ./install" (aixigo-get-local-file-part (match-string 0 fname))))
+          (compile (format "ssh %s \"cd %s && ./install\"" (aixigo-get-remote-host-part fname) (aixigo-get-local-file-part (match-string 0 fname))))
+          )
+      (error "Could not determine project module to compile.")
+      )
     )
   )
 
@@ -142,7 +157,7 @@
 
     (setq aixigo-project-name (nth 0 project-settings))
     (setq aixigo-project-branch (nth 1 project-settings))
-    
+
     (setq aixigo-clang-includes
           (append (aixigo-get-project-includes)
                   (aixigo-get-external-modules-includes)
@@ -166,23 +181,31 @@
   )
 
 (defun aixigo-is-local-file-p (file-name)
-  "Returns t if file-name is a local file name, or nil if it is handled by tramp."
-  (if (string-match-p "/[[:alnum:]]*:[[:alnum:]]*:/.*" file-name)
+  "Return t if FILE-NAME is a local file name, or nil if it is handled by tramp."
+  (if (string-match-p "/[[:graph:]^/]*:[[:graph:]^/]*:/.*" file-name )
       nil
     t
     )
   )
 
 (defun aixigo-get-local-file-part (file-name)
-  "Returns the local part of a path."
+  "Return the local part of FILE-NAME."
   (if (aixigo-is-local-file-p file-name)
       file-name
     (tramp-file-name-localname (tramp-dissect-file-name file-name))
     )
   )
 
+(defun aixigo-get-remote-host-part (file-name)
+  "Return the host portion of FILE-NAME or nil if it is a local file."
+  (if (aixigo-is-local-file-p file-name)
+      nil
+    (tramp-file-name-host (tramp-dissect-file-name file-name))
+    )
+  )
+
 (defun aixigo-header-p (file-name)
-  "Returns true if buffer seems to be a header file, nil otherwise."
+  "Return true if FILE-NAME seems to be a header file, nil otherwise."
   (if (string-match "\\.\\(h\\|hdf\\)$" file-name)
       t
     nil
@@ -224,7 +247,7 @@
 (defun aixigo-should-buffer-be-killed ( buffer )
   "Test if the given BUFFER should be killed.
 ECB buffers, messages and scratch will never be killed."
-  (not 
+  (not
    ( some
     ( lambda (x)
       ( string-prefix-p x ( buffer-name buffer ) )
