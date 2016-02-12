@@ -23,6 +23,12 @@
   :type 'directory
   )
 
+(defcustom aixigo-enable-ecb t
+  "Enable ECB if non nil."
+  :group 'aixigo
+  :type 'boolean
+  )
+
 (defvar aixigo-clang-includes)
 (defvar aixigo-project-name)
 (defvar aixigo-project-branch)

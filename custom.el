@@ -17,6 +17,7 @@
      (awk-mode . "awk")
      (other . "bsd"))))
  '(c-offsets-alist (quote ((arglist-intro . +) (arglist-close . 0))))
+ '(calendar-week-start-day 1)
  '(column-number-mode t)
  '(custom-enabled-themes (quote (misterioso)))
  '(electric-indent-mode t)

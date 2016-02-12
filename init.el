@@ -230,7 +230,8 @@
   ;; ECB
   ;;
   (setq ecb-examples-bufferinfo-buffer-name nil)
-  (ecb-activate)
+  (when aixigo-enable-ecb
+    (ecb-activate))
   
   ;;
   ;; Calendar
