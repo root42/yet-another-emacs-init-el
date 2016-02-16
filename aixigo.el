@@ -220,22 +220,25 @@
   "Try to find C++ header or implementation of current buffer using GNU global."
   (interactive)
   (let ((file-name (buffer-file-name)))
-    (find-file
-     (with-temp-buffer
-       (shell-command
-        (format "global -P '%s/%s.%s'"
-                (file-name-nondirectory (directory-file-name (file-name-directory file-name)))
-                (file-name-sans-extension (file-name-nondirectory file-name))
-                (if (aixigo-header-p file-name)
-                    "c"
-                  "h"
-                  )
-                )
-        (current-buffer)
-        )
-       (car (last (split-string (buffer-string) "\n" t)))
-       )
-     )
+    (let ((other-file-name
+           (with-temp-buffer
+             (shell-command
+              (format "global -P '%s/%s.%s'"
+                      (file-name-nondirectory (directory-file-name (file-name-directory file-name)))
+                      (file-name-sans-extension (file-name-nondirectory file-name))
+                      (if (aixigo-header-p file-name)
+                          "c"
+                        "h"
+                        )
+                      )
+              (current-buffer)
+              )
+             (car (last (split-string (buffer-string) "\n" t)))
+             )))
+      (if other-file-name
+          (find-file other-file-name)
+        (error "Could not find other file"))
+      )
     )
   )
 
