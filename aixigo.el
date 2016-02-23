@@ -264,6 +264,13 @@ ECB buffers, messages and scratch will never be killed."
    )
   )
 
+(defun aixigo-filter (condp lst)
+  "Use condition CONDP to filter list LST.  Return the filtered list."
+  (delq nil
+        (mapcar (lambda (x) (and (funcall condp x) x)) lst)
+        )
+  )
+
 (defun kill-all-buffers ()
   "Kill all buffers, except those given in aixigo-should-buffer-be-killed."
   (interactive)
