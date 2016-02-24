@@ -124,6 +124,7 @@
   (add-hook 'prog-mode-hook 'hl-line-mode)
   (add-hook 'nxml-mode-hook 'linum-mode)
   (add-hook 'nxml-mode-hook 'hl-line-mode)
+  (add-hook 'markdown-mode-hook 'hl-line-mode)
   ;; Uncomment when this bug is fixed: https://github.com/alpaker/Fill-Column-Indicator/issues/54
   ;(add-hook 'prog-mode-hook 'fci-mode)
 
