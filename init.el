@@ -75,7 +75,7 @@
    'flycheck
    'ggtags
    'helm
-   'jedi
+   ;; 'jedi ;; Needs working pip and jediserver
    'js2-mode
    'magit
    'paredit
