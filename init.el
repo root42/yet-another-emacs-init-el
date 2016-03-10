@@ -258,4 +258,10 @@
     (read-only-mode))
   (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
-)
+  ;;
+  ;; Dired
+  ;;
+  (require 'dired)
+  (define-key dired-mode-map [mouse-2] 'dired-find-file)
+
+  )
