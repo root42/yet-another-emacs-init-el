@@ -66,6 +66,7 @@
 
   (ensure-package-installed 
    'auctex
+   'auto-complete-clang
    'cider
    'clojure-mode
    'company
