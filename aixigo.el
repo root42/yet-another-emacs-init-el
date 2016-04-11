@@ -173,6 +173,11 @@
                   aixigo-clang-includes
                   )
           )
+    (setq ac-clang-flags
+          (mapcar (lambda (item) (concat "-I" item))
+                  aixigo-clang-includes
+                  )
+          )
     (setq flycheck-clang-args
           (mapcar (lambda (item) (concat "-I" item))
                aixigo-clang-includes
@@ -181,7 +186,7 @@
     )
 
   (setq frame-title-format '( "" "%b @ Aixmacs24 " aixigo-project-name "/" aixigo-project-branch))
-
+  
   )
 
 (defun aixigo-is-local-file-p (file-name)

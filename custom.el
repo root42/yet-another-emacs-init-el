@@ -36,7 +36,6 @@
  '(nxml-attribute-indent 3)
  '(nxml-child-indent 3)
  '(nxml-outline-child-indent 3)
- '(package-pinned-packages (quote ((auto-complete . "blacklist"))))
  '(scroll-conservatively 1000)
  '(semantic-complete-inline-analyzer-idle-displayor-class (quote semantic-displayor-traditional))
  '(semantic-completion-displayor-format-tag-function (quote ignore))
