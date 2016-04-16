@@ -231,8 +231,8 @@
   (global-set-key "\M-\S-n" 'first-error)
   (global-set-key "\M-<" (lambda() (interactive) (other-frame 1)))
   (global-set-key "\M->" (lambda() (interactive) (other-frame -1)))
-  (global-set-key (kbd "M-/") 'company-complete)
-  (global-set-key (kbd "<C-return>") 'company-complete)
+  (global-set-key (kbd "M-/") 'auto-complete)
+  (global-set-key (kbd "<C-return>") 'auto-complete)
   (global-set-key (kbd "C-x C-o") '(lambda() (interactive (other-window -1))))
 
   ;;
