@@ -140,6 +140,10 @@
   ;; 
   (add-hook 'text-mode-hook 'flyspell-mode)
   (add-hook 'text-mode-hook 'hl-line-mode)
+  (eval-after-load "flyspell"
+    '(progn
+       (define-key flyspell-mouse-map (kbd "<C-down-mouse-3>") #'flyspell-correct-word)
+       (define-key flyspell-mouse-map (kbd "<C-mouse-3>") 'undefined) ))
   
   ;;
   ;; Programming stuff
