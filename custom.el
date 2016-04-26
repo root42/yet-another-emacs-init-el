@@ -29,6 +29,8 @@
  '(global-auto-complete-mode t)
  '(global-subword-mode t)
  '(indent-tabs-mode nil)
+ '(ispell-dictionary "deutsch")
+ '(ispell-program-name "aspell")
  '(keyboard-coding-system (quote utf-8))
  '(mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
  '(ns-alternate-modifier (quote alt))
