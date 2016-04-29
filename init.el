@@ -79,6 +79,7 @@
    ;; 'jedi ;; Needs working pip and jediserver
    'js2-mode
    'magit
+   'markdown-mode
    'paredit
    'reftex
    'skewer-mode
