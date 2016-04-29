@@ -104,12 +104,24 @@
   ;(helm-mode 1)
 
   ;;
+  ;; Linux/Unix specifics
+  ;;
+  (when (memq window-system '(x))
+    (set-fontset-font
+     t 'symbol
+     (font-spec :family "Symbola") nil 'prepend)    
+    )
+  
+  ;;
   ;; OS X specifics
   ;;
   (when (memq window-system '(mac ns))
     (exec-path-from-shell-initialize)
     (setq ns-right-alternate-modifier nil)
     (global-set-key (kbd "A-SPC") 'just-one-space)
+    (set-fontset-font
+     t 'symbol
+     (font-spec :family "Apple Color Emoji") nil 'prepend)
     )
 
   ;;
