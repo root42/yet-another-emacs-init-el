@@ -304,4 +304,13 @@
   (require 'dired)
   (define-key dired-mode-map [mouse-2] 'dired-find-file)
 
+  ;;
+  ;; Flyspell
+  ;;
+  (eval-after-load "flyspell"
+  '(progn
+     (define-key flyspell-mouse-map [down-mouse-3] #'flyspell-correct-word)
+     (define-key flyspell-mouse-map [mouse-3] #'undefined)
+     (define-key flyspell-mouse-map [down-mouse-2] nil)
+     (define-key flyspell-mouse-map [mouse-2] nil)))
   )
