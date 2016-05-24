@@ -201,6 +201,7 @@
     )
   
   (define-key clojure-mode-map (kbd "C-c C-r") 'cider-refresh)
+  (define-key clojure-mode-map (kbd "<f1>") 'cider-refresh)
 
   ;;
   ;; LaTeX stuff
@@ -233,28 +234,27 @@
   ;;
   ;; Global key shortcuts:  
   ;;
-  (global-set-key [f1] 'cider-refresh)
-  (global-set-key [f2] 'dabbrev-completion)
+  (global-set-key (kbd "<f2>") 'dabbrev-completion)
   (add-hook 'c-mode-common-hook
 	    '(lambda ()
-	       (define-key c-mode-base-map [f3] 'aixigo-find-other-file)))
-  (global-set-key (kbd "<S-f3>") 'ggtags-find-tag)
-  (global-set-key [f4] (lambda() (interactive) (switch-to-buffer (other-buffer (current-buffer) nil))))
-  (global-set-key [f5] 'tabbar-backward-tab)
-  (global-set-key [f6] 'tabbar-forward-tab)
+	       (define-key c-mode-base-map (kbd "<f3>") 'aixigo-find-other-file)))
+  (global-set-key (kbd "S-<f3>") 'ggtags-find-tag)
+  (global-set-key (kbd "<f4>") (lambda() (interactive) (switch-to-buffer (other-buffer (current-buffer) nil))))
+  (global-set-key (kbd "<f5>") 'tabbar-backward-tab)
+  (global-set-key (kbd "<f6>") 'tabbar-forward-tab)
   (global-set-key (kbd "<f7>")   'fd-switch-dictionary)
-  (global-set-key (kbd "<C-S-tab>") 'tabbar-backward-tab)
-  (global-set-key (kbd "<C-tab>") 'tabbar-forward-tab)
-  (global-set-key [f8] (lambda() (interactive) (kill-buffer (current-buffer))))
-  (global-set-key [f9] 'compile)
-  (global-set-key (kbd "<C-f9>") 'aixigo-compile-current-module)
-  (global-set-key "\M-?" 'grep)
-  (global-set-key "\M-n" 'next-error)
-  (global-set-key "\M-\S-n" 'first-error)
-  (global-set-key "\M-<" (lambda() (interactive) (other-frame 1)))
-  (global-set-key "\M->" (lambda() (interactive) (other-frame -1)))
+  (global-set-key (kbd "C-S-<tab>") 'tabbar-backward-tab)
+  (global-set-key (kbd "C-<tab>") 'tabbar-forward-tab)
+  (global-set-key (kbd "<f8>") (lambda() (interactive) (kill-buffer (current-buffer))))
+  (global-set-key (kbd "<f9>") 'compile)
+  (global-set-key (kbd "C-<f9>") 'aixigo-compile-current-module)
+  (global-set-key (kbd "M-?") 'grep)
+  (global-set-key (kbd "M-n") 'next-error)
+  (global-set-key (kbd "M-S-n") 'first-error)
+  (global-set-key (kbd "M->") (lambda() (interactive) (other-frame 1)))
+  (global-set-key (kbd "M->") (lambda() (interactive) (other-frame -1)))
   (global-set-key (kbd "M-/") 'auto-complete)
-  (global-set-key (kbd "<C-return>") 'auto-complete)
+  (global-set-key (kbd "C-<return>") 'auto-complete)
   (global-set-key (kbd "C-x C-o") '(lambda() (interactive (other-window -1))))
 
   ;;
