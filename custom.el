@@ -24,6 +24,7 @@
  '(ecb-compile-window-height 10)
  '(ecb-layout-name "left3")
  '(ecb-options-version "2.40")
+ '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
  '(ecb-tip-of-the-day nil)
  '(fill-column 110)
  '(global-auto-complete-mode t)
