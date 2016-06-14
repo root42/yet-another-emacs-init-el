@@ -18,7 +18,7 @@
 ;;
 ;; After init hook
 ;;
-(add-hook 'emacs-startup-hook 'my-emacs-startup-hook)
+(add-hook 'after-init-hook 'my-emacs-startup-hook)
 (defun my-emacs-startup-hook ()
 
   ;;
