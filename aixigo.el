@@ -228,14 +228,21 @@
     (let ((other-file-name
            (with-temp-buffer
              (shell-command
-              (format "global -P '%s/%s.%s'"
+              (if (aixigo-header-p file-name)
+                  (format "global -P '%s/(src/|)%s.%s'"
                       (file-name-nondirectory (directory-file-name (file-name-directory file-name)))
                       (file-name-sans-extension (file-name-nondirectory file-name))
-                      (if (aixigo-header-p file-name)
-                          "c"
+                      "c"
+                      )
+                (format "global -P '%s/%s.%s'"
+                        (if (string= (file-name-nondirectory (directory-file-name (file-name-directory file-name))) "src")
+                            (file-name-nondirectory (directory-file-name (file-name-directory (directory-file-name (file-name-directory (directory-file-name file-name))))))
+                          (file-name-nondirectory (directory-file-name (file-name-directory file-name)))
+                          )
+                        (file-name-sans-extension (file-name-nondirectory file-name))
                         "h"
                         )
-                      )
+                )
               (current-buffer)
               )
              (car (last (split-string (buffer-string) "\n" t)))
