@@ -80,6 +80,7 @@
    'js2-mode
    'magit
    'markdown-mode
+   'org-bullets
    'paredit
    'reftex
    'skewer-mode
@@ -313,4 +314,9 @@
      (define-key flyspell-mouse-map [mouse-3] #'undefined)
      (define-key flyspell-mouse-map [down-mouse-2] nil)
      (define-key flyspell-mouse-map [mouse-2] nil)))
+
+  ;;
+  ;; org mode
+  ;;
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
   )
