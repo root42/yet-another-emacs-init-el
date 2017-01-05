@@ -319,4 +319,11 @@
   ;; org mode
   ;;
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+  ;;
+  ;; xml mode
+  ;;
+  (add-to-list 'auto-mode-alist
+              (cons (concat "\\." (regexp-opt '("xml" "xsd" "sch" "rng" "xslt" "svg" "rss") t) "\\'")
+                    'nxml-mode))
   )
