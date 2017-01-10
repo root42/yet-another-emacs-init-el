@@ -19,7 +19,7 @@
  '(c-offsets-alist (quote ((arglist-intro . +) (arglist-close . 0))))
  '(calendar-week-start-day 1)
  '(column-number-mode t)
- '(custom-enabled-themes (quote (misterioso)))
+ '(custom-enabled-themes (quote (aixigo-misterioso)))
  '(electric-indent-mode t)
  '(ecb-compile-window-height 10)
  '(ecb-layout-name "left3")
@@ -49,13 +49,5 @@
  '(tabbar-mode t nil (tabbar))
  '(truncate-lines t)
  '(visible-bell t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ecb-default-highlight-face ((t (:background "DarkOrange1"))))
- '(ecb-directory-face ((t (:inherit ecb-default-highlight-face :background "DarkOrange1"))))
- '(hl-line ((t (:background "#212931" :distant-foreground "white")))))
 
 ;;; custom.el ends here

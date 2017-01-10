@@ -34,6 +34,34 @@
 (defvar aixigo-project-branch)
 
 ;;
+;; Default Font
+;;
+(add-to-list 'default-frame-alist '(font . "Source Code Pro 15" ))
+
+;;
+;; Toggle between light and dark themes
+;;
+
+(setq custom-theme-directory user-true-init-file-directory)
+(setq aixigo-themes '(aixigo-misterioso eclipse))
+(setq aixigo-themes-index 0)
+
+(defun aixigo-cycle-theme ()
+  (interactive)
+  (setq aixigo-themes-index (% (1+ aixigo-themes-index) (length aixigo-themes)))
+  (aixigo-load-indexed-theme))
+
+(defun aixigo-load-indexed-theme ()
+  (aixigo-try-load-theme (nth aixigo-themes-index aixigo-themes)))
+
+(defun aixigo-try-load-theme (theme)
+  (if (ignore-errors (load-theme theme :no-confirm))
+      (mapcar #'disable-theme (remove theme custom-enabled-themes))
+    (message "Unable to find theme file for ‘%s’" theme)))
+
+(global-set-key (kbd "<f12>") 'aixigo-cycle-theme)
+
+;;
 ;; Utility functions for setting up the project paths
 ;;
 (defun aixigo-get-system-includes ()
@@ -168,6 +196,8 @@
                   )
           )
 
+    ;;(setq company-clang--prefix "-W")
+    ;;(company-clang-set-prefix "-W")
     (setq company-clang-arguments
           (mapcar (lambda (item) (concat "-I" item))
                   aixigo-clang-includes

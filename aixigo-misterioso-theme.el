@@ -1,16 +1,9 @@
 (deftheme aixigo-misterioso
-  "Created 2017-01-10.")
+  "Augmented misterioso theme.")
 
 (custom-theme-set-variables
  'aixigo-misterioso
- '(ac-clang-executable "/home/aschmitz/bin/clang/bin/clang++")
- '(aixigo-enable-ecb nil)
- '(ansi-color-names-vector ["#2d3743" "#ff4242" "#74af68" "#dbdb95" "#34cae2" "#008b8b" "#00ede1" "#e1e1e0"])
- '(c-basic-offset 3)
- '(c-default-style (quote ((java-mode . "java") (awk-mode . "awk") (other . "bsd"))))
- '(c-offsets-alist (quote ((arglist-intro . +) (arglist-close . 0))))
- '(calendar-week-start-day 1)
- '(company-backends (quote (company-clang company-nxml company-css company-eclim company-semantic company-bbdb company-xcode company-elisp company-cmake company-capf (company-dabbrev-code company-gtags company-etags company-keywords) company-oddmuse company-files company-dabbrev))))
+ )
 
 (custom-theme-set-faces
  'aixigo-misterioso

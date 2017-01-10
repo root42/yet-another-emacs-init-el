@@ -72,6 +72,7 @@
    'company
    'csv-mode
    'ecb
+   'eclipse-theme
    'exec-path-from-shell
    'flycheck
    'ggtags
