@@ -9,40 +9,21 @@
 (defvar user-true-init-file-directory (file-name-directory (file-truename user-init-file)))
 
 ;;
-;; Initialize package management
-;;
-(require 'package)
-(package-initialize)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-
-;;
 ;; After init hook
 ;;
 (add-hook 'after-init-hook 'my-emacs-startup-hook)
 (defun my-emacs-startup-hook ()
 
   ;;
-  ;; Aixigo setup
+  ;; Initialize package management
   ;;
-  (load-file (format "%saixigo.el" user-true-init-file-directory))
-  
-  ;;
-  ;; Set up the coding system
-  ;;
-  (prefer-coding-system 'utf-8)
-  ;; ;; Suggested by bbatsov in https://github.com/clojure-emacs/clojure-mode/issues/252
-  ;; (set-language-environment 'utf-8)
-  ;; (setq locale-coding-system 'utf-8)
-  ;; (set-default-coding-systems 'utf-8)
-  ;; (set-terminal-coding-system 'utf-8)
+  (require 'package)
+  (package-initialize)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  ;; make sure to have downloaded archive description.
+  (when (not package-archive-contents)
+    (package-refresh-contents nil))
 
-  ;;
-  ;; CEDET / Semantic
-  ;;
-  (load-file (format "%scedet/cedet-devel-load.el" user-true-init-file-directory))
-  (semantic-mode 1)
-  (global-semantic-idle-completions-mode nil)
-  
   ;;
   ;; Make sure all packages are installed
   ;; 
@@ -54,15 +35,10 @@
        ;; (package-installed-p 'evil)
        (if (package-installed-p package)
 	   nil
-         (package-install package)
+         (package-install package nil)
          package
          ))
      packages))
-
-  ;; make sure to have downloaded archive description.
-  ;; Or use package-archive-contents as suggested by Nicolas Dudebout
-  (or (file-exists-p package-user-dir)
-      (package-refresh-contents))
 
   (ensure-package-installed 
    'auctex
@@ -88,6 +64,28 @@
    'tabbar
    )
 
+  ;;
+  ;; Aixigo setup
+  ;;
+  (load-file (format "%saixigo.el" user-true-init-file-directory))
+  
+  ;;
+  ;; Set up the coding system
+  ;;
+  (prefer-coding-system 'utf-8)
+  ;; ;; Suggested by bbatsov in https://github.com/clojure-emacs/clojure-mode/issues/252
+  ;; (set-language-environment 'utf-8)
+  ;; (setq locale-coding-system 'utf-8)
+  ;; (set-default-coding-systems 'utf-8)
+  ;; (set-terminal-coding-system 'utf-8)
+
+  ;;
+  ;; CEDET / Semantic
+  ;;
+  (load-file (format "%scedet/cedet-devel-load.el" user-true-init-file-directory))
+  (semantic-mode 1)
+  (global-semantic-idle-completions-mode nil)
+  
   ;;
   ;; Customize stuff
   ;;
@@ -328,3 +326,17 @@
               (cons (concat "\\." (regexp-opt '("xml" "xsd" "sch" "rng" "xslt" "svg" "rss") t) "\\'")
                     'nxml-mode))
   )
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (org-bullets markdown-mode eclipse-theme tabbar skewer-mode paredit magit helm ggtags flycheck exec-path-from-shell ecb csv-mode company cider auto-complete-clang auctex))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
