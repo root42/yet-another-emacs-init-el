@@ -92,6 +92,7 @@
   ;;
   (setq custom-file (expand-file-name "custom.el" (or (file-name-directory user-init-file) default-directory)))
   (load custom-file)
+  (global-set-key (kbd "<f1>") '(lambda () (interactive) (load custom-file)))
 
   ;;
   ;; Python
@@ -319,7 +320,7 @@
   ;;
   ;; org mode
   ;;
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  ;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
   ;;
   ;; xml mode
