@@ -66,7 +66,7 @@
    )
 
   ;;
-  ;; Aixigo setup
+  ;; Nuance setup
   ;;
   (load-file (format "%snuance.el" user-true-init-file-directory))
   
@@ -240,7 +240,7 @@
   (global-set-key (kbd "<f2>") 'dabbrev-completion)
   (add-hook 'c-mode-common-hook
 	    '(lambda ()
-	       (define-key c-mode-base-map (kbd "<f3>") 'aixigo-find-other-file)))
+	       (define-key c-mode-base-map (kbd "<f3>") 'nuance-find-other-file)))
   (global-set-key (kbd "S-<f3>") 'ggtags-find-tag)
   (global-set-key (kbd "<f4>") (lambda() (interactive) (switch-to-buffer (other-buffer (current-buffer) nil))))
   (global-set-key (kbd "<f5>") 'tabbar-backward-tab)
@@ -250,7 +250,7 @@
   (global-set-key (kbd "C-<tab>") 'tabbar-forward-tab)
   (global-set-key (kbd "<f8>") (lambda() (interactive) (kill-buffer (current-buffer))))
   (global-set-key (kbd "<f9>") 'compile)
-  (global-set-key (kbd "C-<f9>") 'aixigo-compile-current-module)
+  (global-set-key (kbd "C-<f9>") 'nuance-compile-current-module)
   (global-set-key (kbd "M-?") 'grep)
   (global-set-key (kbd "M-n") 'next-error)
   (global-set-key (kbd "M-S-n") 'first-error)
@@ -274,7 +274,7 @@
   ;; ECB
   ;;
   (setq ecb-examples-bufferinfo-buffer-name nil)
-  (when aixigo-enable-ecb
+  (when nuance-enable-ecb
     (ecb-activate))
   
   ;;

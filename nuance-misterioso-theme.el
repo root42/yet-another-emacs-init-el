@@ -1,4 +1,4 @@
-(deftheme aixigo-misterioso
+(deftheme nuance-misterioso
   "Augmented misterioso theme.")
 
 (custom-theme-set-variables
@@ -47,4 +47,4 @@
  '(message-cited-text ((((class color) (min-colors 89)) (:foreground "#74af68"))))
  '(message-separator ((((class color) (min-colors 89)) (:foreground "#23d7d7")))))
 
-(provide-theme 'aixigo-misterioso)
+(provide-theme 'nuance-misterioso)

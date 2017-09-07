@@ -84,7 +84,7 @@
     (with-temp-buffer
       (setq default-directory (ggtags-current-project-root))
       (shell-command
-       "cat includes.txt"
+       (format "if [ -e includes.txt ]; then cat includes.txt; else %s/includes.sh > includes.txt ; cat includes.txt ; fi" user-true-init-file-directory)
        ;; "find . -name '*.vcxproj' | xargs egrep -h '<AdditionalIncludeDirectories>' | sed -E 's/ *<\\/?AdditionalIncludeDirectories>//g' | sed 's/\\\\/\\//g' | sed 's/;/\\n/g' | sort | uniq | egrep -v '^[%$]'"
        ;; "global -Pa '.*\.hp?p?' | awk -F'/' '{ for (i=1; i<NF-1; i++) printf(\"%s/\", $i); printf(\"\\n\"); for (i=1; i<NF; i++) printf(\"%s/\", $i); printf(\"\\n\"); }' | sort | uniq"
        (current-buffer)
