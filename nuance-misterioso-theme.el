@@ -2,11 +2,11 @@
   "Augmented misterioso theme.")
 
 (custom-theme-set-variables
- 'aixigo-misterioso
+ 'nuance-misterioso
  )
 
 (custom-theme-set-faces
- 'aixigo-misterioso
+ 'nuance-misterioso
  '(default ((((class color) (min-colors 4096)) (:background "#2d3743" :foreground "#e1e1e0")) (((class color) (min-colors 89)) (:background "#3a3a3a" :foreground "#e1e1e0"))))
  '(ecb-default-highlight-face ((t (:background "DarkOrange1"))))
  '(ecb-directory-face ((t (:inherit ecb-default-highlight-face :background "DarkOrange1"))))
