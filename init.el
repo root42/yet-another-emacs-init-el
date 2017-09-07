@@ -68,7 +68,7 @@
   ;;
   ;; Aixigo setup
   ;;
-  (load-file (format "%saixigo.el" user-true-init-file-directory))
+  (load-file (format "%snuance.el" user-true-init-file-directory))
   
   ;;
   ;; Set up the coding system
