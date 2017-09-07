@@ -94,43 +94,10 @@
     )
   )
 
-(defun nuance-get-external-modules-includes ()
-  "Return the path to the external modules headers for a given project."
-  (interactive)
-  (let (
-        (fname (buffer-file-name))
-        )
-    (with-temp-buffer
-      (setq default-directory (nuance-get-current-project-path-base fname))
-      (shell-command
-       (format "echo %s/build/include/external_modules ; %s %s/build/include/external_modules -maxdepth 1 -mindepth 1 -type d | sort"
-               (nuance-get-local-file-part (nuance-get-current-project-path-base fname))
-               nuance-find-command
-               (nuance-get-local-file-part (nuance-get-current-project-path-base fname))
-               )
-       (current-buffer)
-       )
-      (split-string (buffer-string) "\n" t)
-      )
-    )
-  )
-
 (defun nuance-get-current-project-module-and-branch ( &optional optionalfname )
   "Return a tuple with the project name, module name and branch of the current buffer or given OPTIONALFNAME."
   (interactive)
   '("speechIF1" "master")
-  ;; (let (
-  ;;       (fname (if optionalfname (file-truename optionalfname) (file-truename buffer-file-name)))
-  ;;       )
-  ;;   (if (string-match ".*/\\(.*\\)/\\(.*\\)/\\(platform_modules\\|modules\\|models\\)/\\([^/]*\\)/" fname)
-  ;;       (list
-  ;;        (match-string 1 fname)
-  ;;        (match-string 2 fname)
-  ;;        (match-string 3 fname)
-  ;;        )
-  ;;     (error "Could not determine project")
-  ;;     )
-  ;;   )
   )
 
 (defun nuance-get-current-project ( &optional optionalfname )
@@ -185,12 +152,9 @@
     (setq nuance-project-branch (nth 1 project-settings))
     (setq nuance-clang-includes
           (append (nuance-get-project-includes)
-                  ;(nuance-get-external-modules-includes)
                   )
           )
 
-    ;;(setq company-clang--prefix "-W")
-    ;;(company-clang-set-prefix "-W")
     (setq nuance-general-clang-arguments '("-std=c++11" "-DSAC_SAS"))
     (setq company-clang-arguments
           (append
@@ -216,7 +180,7 @@
           )
     )
 
-  (setq frame-title-format '( "" "%b @ Aixmacs24 " nuance-project-name "/" nuance-project-branch))
+  (setq frame-title-format '( "" "%b @ Nuancemacs25 " nuance-project-name "/" nuance-project-branch))
   
   )
 
