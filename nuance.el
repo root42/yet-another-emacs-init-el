@@ -65,7 +65,7 @@
         (fname (buffer-file-name))
         )
     (with-temp-buffer
-      (setq default-directory (nuance-get-current-project-path-base fname))
+      (setq default-directory (ggtags-current-project-root))
       (shell-command
        "echo | gcc -x c++ -v -E /dev/null 2>&1 | egrep '^ .*include' | sed 's/^ //g'"
        (current-buffer)
@@ -155,12 +155,12 @@
                   )
           )
 
-    (setq nuance-general-clang-arguments '("-std=c++11" "-DSAC_SAS"))
+    (setq nuance-general-clang-arguments '("-std=c++11" "-DSAC_SAS" "-Wno-unused-parameter"))
     (setq company-clang-arguments
           (append
            nuance-general-clang-arguments
            (mapcar (lambda (item) (concat "-I" item))
-                   nuance-clang-includes
+                   (append (nuance-get-system-includes) nuance-clang-includes)
                    )
            )
           )
@@ -168,7 +168,7 @@
           (append
            nuance-general-clang-arguments
            (mapcar (lambda (item) (concat "-I" item))
-                   nuance-clang-includes
+                   (append (nuance-get-system-includes) nuance-clang-includes)
                    )
            )
           )
