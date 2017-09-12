@@ -329,4 +329,43 @@
   (add-to-list 'auto-mode-alist
               (cons (concat "\\." (regexp-opt '("xml" "xsd" "sch" "rng" "xslt" "svg" "rss") t) "\\'")
                     'nxml-mode))
+
+  ;;
+  ;; Buffer menu
+  ;;
+  (defun mouse-buffer-menu-alist (buffers)
+  (let (tail
+    (maxlen 0)
+    head)
+    (setq buffers
+      (sort buffers
+        (function (lambda (elt1 elt2)
+                (string< (buffer-name elt1) (buffer-name elt2))))))
+    (setq tail buffers)
+    (while tail
+      (or (eq ?\s (aref (buffer-name (car tail)) 0))
+      (setq maxlen
+        (max maxlen
+             (length (buffer-name (car tail))))))
+      (setq tail (cdr tail)))
+    (setq tail buffers)
+    (while tail
+      (let ((elt (car tail)))
+    (if (/= (aref (buffer-name elt) 0) ?\s)
+        (setq head
+          (cons
+           (cons
+            (format
+             (format "%%-%ds  %%s%%s" maxlen)
+             (buffer-name elt)
+             (if (buffer-modified-p elt) "*" " ")
+             (with-current-buffer elt
+               (if buffer-read-only "%" " "))
+                     )
+            elt)
+           head))))
+      (setq tail (cdr tail)))
+    ;; Compensate for the reversal that the above loop does.
+    (nreverse head)))
+
   )
