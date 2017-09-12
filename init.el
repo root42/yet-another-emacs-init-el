@@ -60,6 +60,7 @@
    'markdown-mode
    'org-bullets
    'paredit
+   'p4
    'reftex
    'skewer-mode
    'tabbar

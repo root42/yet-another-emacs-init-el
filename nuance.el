@@ -9,6 +9,7 @@
 ;;
 
 (require 'cc-mode)
+(require 'p4)
 (provide 'nuance)
 
 ;;
@@ -155,7 +156,7 @@
                   )
           )
 
-    (setq nuance-general-clang-arguments '("-std=c++11" "-DSAC_SAS" "-Wno-unused-parameter"))
+    (setq nuance-general-clang-arguments '("-std=c++11" "-DSAC_SAS" "-Wno-unused-parameter" "-Wno-unused-variable"))
     (setq company-clang-arguments
           (append
            nuance-general-clang-arguments
