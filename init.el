@@ -105,7 +105,7 @@
   ;; Helm mode
   ;;
   (global-set-key (kbd "C-c h") 'helm-mini)
-  ;(helm-mode 1)
+  (helm-mode 1)
 
   ;;
   ;; Linux/Unix specifics
@@ -260,6 +260,7 @@
   (global-set-key (kbd "M-/") 'auto-complete)
   (global-set-key (kbd "C-<return>") 'auto-complete)
   (global-set-key (kbd "C-x C-o") '(lambda() (interactive (other-window -1))))
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
 
   ;;
   ;; Emacs server
