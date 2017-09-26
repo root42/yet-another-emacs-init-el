@@ -211,7 +211,7 @@
 
 (defun nuance-header-p (file-name)
   "Return true if FILE-NAME seems to be a header file, nil otherwise."
-  (if (string-match "\\.\\(h\\|hdf\\)$" file-name)
+  (if (string-match "\\.\\(h\\|hdf\\|hpp\\)$" file-name)
       t
     nil
     )
