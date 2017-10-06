@@ -261,6 +261,8 @@
   (global-set-key (kbd "C-<return>") 'auto-complete)
   (global-set-key (kbd "C-x C-o") '(lambda() (interactive (other-window -1))))
   (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "s-<left>") 'previous-buffer)
+  (global-set-key (kbd "s-<right>") 'next-buffer)
 
   ;;
   ;; Emacs server
