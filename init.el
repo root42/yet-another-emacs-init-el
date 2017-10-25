@@ -52,6 +52,7 @@
    'eclipse-theme
    'exec-path-from-shell
    'flycheck
+   'flycheck-clang-analyzer
    'ggtags
    'helm
    ;; 'jedi ;; Needs working pip and jediserver
