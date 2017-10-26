@@ -65,6 +65,7 @@
    'reftex
    'skewer-mode
    'tabbar
+   'use-package
    )
 
   ;;
@@ -151,9 +152,10 @@
   
   ;(global-company-mode)
   (global-flycheck-mode)
-  (with-eval-after-load 'flycheck
-    (require 'flycheck-clang-analyzer)
-    (flycheck-clang-analyzer-setup))
+  (use-package flycheck-clang-analyzer
+               :ensure t
+               :after flycheck
+               :config (flycheck-clang-analyzer-setup))
 
   ;;
   ;; Text stuff
