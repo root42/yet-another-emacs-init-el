@@ -55,6 +55,7 @@
    'flycheck-clang-analyzer
    'ggtags
    'helm
+   'highlight-symbol
    ;; 'jedi ;; Needs working pip and jediserver
    'js2-mode
    'magit
@@ -172,6 +173,7 @@
   ;;
   (add-hook 'prog-mode-hook 'linum-mode)
   (add-hook 'prog-mode-hook 'hl-line-mode)
+  (add-hook 'prog-mode-hook 'highlight-symbol-mode)
   (add-hook 'nxml-mode-hook 'linum-mode)
   (add-hook 'nxml-mode-hook 'hl-line-mode)
   ;; Uncomment when this bug is fixed: https://github.com/alpaker/Fill-Column-Indicator/issues/54
@@ -336,7 +338,7 @@
   ;; xml mode
   ;;
   (add-to-list 'auto-mode-alist
-              (cons (concat "\\." (regexp-opt '("xml" "xsd" "sch" "rng" "xslt" "svg" "rss") t) "\\'")
+              (cons (concat "\\." (regexp-opt '("xml" "xsd" "sch" "rng" "xslt" "svg" "rss" "gdml") t) "\\'")
                     'nxml-mode))
 
   ;;
