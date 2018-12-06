@@ -75,11 +75,6 @@
   ;; Set up the coding system
   ;;
   (prefer-coding-system 'utf-8)
-  ;; ;; Suggested by bbatsov in https://github.com/clojure-emacs/clojure-mode/issues/252
-  ;; (set-language-environment 'utf-8)
-  ;; (setq locale-coding-system 'utf-8)
-  ;; (set-default-coding-systems 'utf-8)
-  ;; (set-terminal-coding-system 'utf-8)
   
   ;;
   ;; Customize stuff
@@ -116,32 +111,6 @@
     )
 
   ;;
-  ;; Autocomplete
-  ;;
-  ;; (require 'auto-complete-clang)
-  ;; (setq ac-auto-start nil)
-  ;; (setq ac-quick-help-delay 0.5)
-  ;; (define-key ac-mode-map  [(control tab)] 'auto-complete)
-  ;; (defun ac-emacs-lisp-mode-setup ()
-  ;;   (setq ac-sources '(ac-source-symbols ac-source-words-in-same-mode-buffers)))
-  ;; (defun my-ac-config ()
-  ;;   (setq-default ac-sources '(ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
-  ;;   (add-hook 'emacs-lisp-mode-hook 'ac-emacs-lisp-mode-setup)
-  ;;   (add-hook 'ruby-mode-hook 'ac-ruby-mode-setup)
-  ;;   (add-hook 'css-mode-hook 'ac-css-mode-setup)
-  ;;   (global-auto-complete-mode t))
-  ;; (defun my-ac-cc-mode-setup ()
-  ;;   (setq ac-sources (append '(ac-source-clang) ac-sources)))
-  ;;(add-hook 'c-mode-common-hook 'my-ac-cc-mode-setup)
-  ;;(my-ac-config)
-  
-  ;(global-company-mode)
-  ;; (use-package flycheck-clang-analyzer
-  ;;              :ensure t
-  ;;              :after flycheck
-  ;;              :config (flycheck-clang-analyzer-setup))
-
-  ;;
   ;; Text stuff
   ;; 
   (add-hook 'text-mode-hook 'flyspell-mode)
@@ -160,7 +129,16 @@
   (add-hook 'nxml-mode-hook 'linum-mode)
   (add-hook 'nxml-mode-hook 'hl-line-mode)
   ;; Uncomment when this bug is fixed: https://github.com/alpaker/Fill-Column-Indicator/issues/54
-  ;(add-hook 'prog-mode-hook 'fci-mode)
+  (add-hook 'prog-mode-hook 'fci-mode)
+  
+  (defun comment-or-uncomment-line-or-region ()
+    "Comments or uncomments the current line."
+    (interactive)
+    (if (region-active-p)
+        (comment-or-uncomment-region (region-beginning) (region-end))
+      (comment-or-uncomment-region (line-beginning-position) (line-end-position))
+      )
+    )
 
   ;;
   ;; Paredit stuff
@@ -175,7 +153,8 @@
   ;;
   ;; Lisp stuff
   ;;
-  (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+  (add-hook 'lisp-mode-hook 'paredit-mode)
+  (add-hook 'clojure-mode-hook 'paredit-mode)
 
   ;;
   ;; LaTeX stuff
@@ -226,7 +205,8 @@
   ;; The actual plugin used to communicate with cquery.
   ;; https://github.com/emacs-lsp/lsp-mode
   (use-package lsp-mode
-    :ensure t)
+    :ensure t
+    )
 
   ;; Flycheck and other IDE-feature support for LSP.
   ;; This has the "fancy features" and should be customized.
@@ -235,6 +215,7 @@
   (use-package lsp-ui
     :ensure t
     :config
+    (setq lsp-ui-sideline-ignore-duplicate t)
     (add-hook 'lsp-mode-hook #'lsp-ui-mode))
 
   ;; LSP backend for Company.
@@ -250,10 +231,14 @@
   (use-package cquery
     :ensure t
     :config
-    (add-hook 'c-mode-common-hook #'lsp-cquery-enable)
     (setq cquery-executable "/home/linuxbrew/.linuxbrew/bin/cquery")
     (setq cquery-extra-init-params '(:completion (:detailedLabel t))))
-  
+
+  (require 'lsp-clients)
+  (require 'cquery)
+  (add-hook 'python-mode-hook 'lsp)
+  (add-hook 'c++-mode-hook 'lsp)
+
   ;;
   ;; Helm mode
   ;;
@@ -272,24 +257,18 @@
 
   (use-package magit
     :ensure t)
-
+  
   ;;
   ;; Global key shortcuts:  
   ;;
   (global-set-key (kbd "<f2>") 'dabbrev-completion)
   (add-hook 'c-mode-common-hook
 	    '(lambda ()
-	       (define-key c-mode-base-map (kbd "<f3>") 'nuance-find-other-file)))
-  (global-set-key (kbd "S-<f3>") 'ggtags-find-tag)
+	       (define-key c-mode-base-map (kbd "<f3>") 'cff-find-other-file)))
   (global-set-key (kbd "<f4>") (lambda() (interactive) (switch-to-buffer (other-buffer (current-buffer) nil))))
-;  (global-set-key (kbd "<f5>") 'tabbar-backward-tab)
-;  (global-set-key (kbd "<f6>") 'tabbar-forward-tab)
   (global-set-key (kbd "<f7>")   'fd-switch-dictionary)
-;  (global-set-key (kbd "C-S-<tab>") 'tabbar-backward-tab)
-;  (global-set-key (kbd "C-<tab>") 'tabbar-forward-tab)
   (global-set-key (kbd "<f8>") (lambda() (interactive) (kill-buffer (current-buffer))))
   (global-set-key (kbd "<f9>") 'compile)
-  (global-set-key (kbd "C-<f9>") 'nuance-compile-current-module)
   (global-set-key (kbd "M-?") 'grep)
   (global-set-key (kbd "M-n") 'next-error)
   (global-set-key (kbd "M-S-n") 'first-error)
@@ -301,6 +280,7 @@
   (global-set-key (kbd "C-x C-f") 'helm-find-files)
   (global-set-key (kbd "s-<left>") 'previous-buffer)
   (global-set-key (kbd "s-<right>") 'next-buffer)
+  (global-set-key (kbd "C-/") 'comment-or-uncomment-line-or-region)
 
   ;;
   ;; Emacs server
