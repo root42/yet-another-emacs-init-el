@@ -157,24 +157,6 @@
   (add-hook 'clojure-mode-hook 'paredit-mode)
 
   ;;
-  ;; LaTeX stuff
-  ;;
-  ;; (load "auctex.el" nil t t)
-
-  ;; (add-hook 'TeX-mode-hook 'linum-mode)
-  ;; (add-hook 'TeX-mode-hook 'hl-line-mode)
-  ;; (add-hook 'TeX-mode-hook 'flyspell-mode)
-
-  ;; (defun fd-switch-dictionary()
-  ;;   "Switches ispell dictionary between english and german."
-  ;;   (interactive)
-  ;;   (let* ((dic ispell-current-dictionary)
-  ;;          (change (if (string= dic "deutsch") "english" "deutsch")))
-  ;;     (ispell-change-dictionary change)
-  ;;     (message "Dictionary switched from %s to %s" dic change)
-  ;;     ))
-
-  ;;
   ;; C++/C stuff
   ;;
   ;; (add-hook 'c-mode-common-hook
@@ -183,15 +165,241 @@
   ;;       	(ggtags-mode 1))))
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
+  (add-hook 'c-mode-hook 'rtags-start-process-unless-running)
+  (add-hook 'c++-mode-hook 'rtags-start-process-unless-running)
+  (add-hook 'objc-mode-hook 'rtags-start-process-unless-running)
+  (rtags-enable-standard-keybindings)
+  (defun use-rtags (&optional useFileManager)
+    (and (rtags-executable-find "rc")
+         (cond ((not (gtags-get-rootpath)) t)
+               ((and (not (eq major-mode 'c++-mode))
+                     (not (eq major-mode 'c-mode))) (rtags-has-filemanager))
+               (useFileManager (rtags-has-filemanager))
+               (t (rtags-is-indexed)))))
+
+  (defun tags-find-symbol-at-point (&optional prefix)
+    (interactive "P")
+    (if (and (not (rtags-find-symbol-at-point prefix)) rtags-last-request-not-indexed)
+        (gtags-find-tag)))
+  (defun tags-find-references-at-point (&optional prefix)
+    (interactive "P")
+    (if (and (not (rtags-find-references-at-point prefix)) rtags-last-request-not-indexed)
+        (gtags-find-rtag)))
+  (defun tags-find-symbol ()
+    (interactive)
+    (call-interactively (if (use-rtags) 'rtags-find-symbol 'gtags-find-symbol)))
+  (defun tags-find-references ()
+    (interactive)
+    (call-interactively (if (use-rtags) 'rtags-find-references 'gtags-find-rtag)))
+  (defun tags-find-file ()
+    (interactive)
+    (call-interactively (if (use-rtags t) 'rtags-find-file 'gtags-find-file)))
+  (defun tags-imenu ()
+    (interactive)
+    (call-interactively (if (use-rtags t) 'rtags-imenu 'idomenu)))
+
+  (define-key c-mode-base-map (kbd "M-.") (function tags-find-symbol-at-point))
+  (define-key c-mode-base-map (kbd "M-,") (function tags-find-references-at-point))
+  (define-key c-mode-base-map (kbd "M-;") (function tags-find-file))
+  (define-key c-mode-base-map (kbd "C-.") (function tags-find-symbol))
+  (define-key c-mode-base-map (kbd "C-,") (function tags-find-references))
+  (define-key c-mode-base-map (kbd "C-<") (function rtags-find-virtuals-at-point))
+  (define-key c-mode-base-map (kbd "M-i") (function tags-imenu))
+
+  (define-key global-map (kbd "M-.") (function tags-find-symbol-at-point))
+  (define-key global-map (kbd "M-,") (function tags-find-references-at-point))
+  (define-key global-map (kbd "M-;") (function tags-find-file))
+  (define-key global-map (kbd "C-.") (function tags-find-symbol))
+  (define-key global-map (kbd "C-,") (function tags-find-references))
+  (define-key global-map (kbd "C-<") (function rtags-find-virtuals-at-point))
+  (define-key global-map (kbd "M-i") (function tags-imenu))
+
+  (setq company-clang-arguments
+        '(
+          "-std=c++0x"
+          "-pthread"
+          "-Wno-everything"
+          "-DBUILD_COMPILER_DIR\=\"ilglcg\""
+          "-DBUILD_DIR\=\"neuraln\""
+          "-DBUILD_HAS_PAPI\=1"
+          "-DDEBUG\=1"
+          "-DDEBUGO\=1"
+          "-DINHOUSE\=1"
+          "-include" "/home/aschmitz/Programs/mrec/mrecutil/mrec.h"
+          "-I/home/aschmitz/Programs/mrec/alien/lint"
+          "-I/home/aschmitz/Programs/mrec/alien/pal"
+          "-I/home/aschmitz/Programs/mrec/alien/pal/common"
+          "-I/home/aschmitz/Programs/mrec/alien/pal/crc32"
+          "-I/home/aschmitz/Programs/mrec/alien/pal/linkedlist"
+          "-I/home/aschmitz/Programs/mrec/alien/pal/win32"
+          "-I/home/aschmitz/Programs/mrec/alien/papi"
+          "-I/home/aschmitz/Programs/mrec/alien/sort"
+          "-I/home/aschmitz/Programs/mrec/alien/xercesc/include/xercesc/util/MsgLoaders/Win32"
+          "-I/home/aschmitz/Programs/mrec/alien/zlib"
+          "-I/home/aschmitz/Programs/mrec/alien/zstd/common"
+          "-I/home/aschmitz/Programs/mrec/alien/zstd/compress"
+          "-I/home/aschmitz/Programs/mrec/alien/zstd/decompress"
+          "-I/home/aschmitz/Programs/mrec/alien/zstd/inc"
+          "-I/home/aschmitz/Programs/mrec/audiosrc"
+          "-I/home/aschmitz/Programs/mrec/audiosrc.inc"
+          "-I/home/aschmitz/Programs/mrec/bin/ilglcx/mrec.env/lib/python2.7/site-packages/wheel/test/headers.dist"
+          "-I/home/aschmitz/Programs/mrec/builtinc/ilglcx"
+          "-iquote/home/aschmitz/Programs/mrec/channel"
+          "-iquote/home/aschmitz/Programs/mrec/channel.inc"
+          "-iquote/home/aschmitz/Programs/mrec/credits"
+          "-iquote/home/aschmitz/Programs/mrec/dfutil"
+          "-iquote/home/aschmitz/Programs/mrec/fileutil"
+          "-iquote/home/aschmitz/Programs/mrec/frame.inc"
+          "-iquote/home/aschmitz/Programs/mrec/fst"
+          "-iquote/home/aschmitz/Programs/mrec/fstgraph"
+          "-iquote/home/aschmitz/Programs/mrec/fstgraph.inc"
+          "-iquote/home/aschmitz/Programs/mrec/fst.inc"
+          "-iquote/home/aschmitz/Programs/mrec/germ.inc"
+          "-iquote/home/aschmitz/Programs/mrec/hello1"
+          "-iquote/home/aschmitz/Programs/mrec/kernel"
+          "-iquote/home/aschmitz/Programs/mrec/lm"
+          "-iquote/home/aschmitz/Programs/mrec/lm.inc"
+          "-iquote/home/aschmitz/Programs/mrec/make.inc/ilglcx/MREC_ilglcx.env/lib/python2.7/site-packages/wheel/test/headers.dist"
+          "-iquote/home/aschmitz/Programs/mrec/mrecutil"
+          "-iquote/home/aschmitz/Programs/mrec/net"
+          "-iquote/home/aschmitz/Programs/mrec/net.inc"
+          "-iquote/home/aschmitz/Programs/mrec/neuraln"
+          "-iquote/home/aschmitz/Programs/mrec/neuraln.inc"
+          "-iquote/home/aschmitz/Programs/mrec/nistplay"
+          "-iquote/home/aschmitz/Programs/mrec/pel.inc"
+          "-iquote/home/aschmitz/Programs/mrec/phoneme.inc"
+          "-iquote/home/aschmitz/Programs/mrec/prefilt"
+          "-iquote/home/aschmitz/Programs/mrec/prefilt.inc"
+          "-iquote/home/aschmitz/Programs/mrec/pypkg/ilglcx/sphinx.env/lib/python2.7/site-packages/wheel/test/headers.dist"
+          "-iquote/home/aschmitz/Programs/mrec/rdspec"
+          "-iquote/home/aschmitz/Programs/mrec/recogctl"
+          "-iquote/home/aschmitz/Programs/mrec/sdapi"
+          "-iquote/home/aschmitz/Programs/mrec/sdclidll"
+          "-iquote/home/aschmitz/Programs/mrec/sdspec"
+          "-iquote/home/aschmitz/Programs/mrec/sdspec/builtsrc/ilglcx"
+          "-iquote/home/aschmitz/Programs/mrec/sdxg1"
+          "-iquote/home/aschmitz/Programs/mrec/sdxg2"
+          "-iquote/home/aschmitz/Programs/mrec/sdxgspec"
+          "-iquote/home/aschmitz/Programs/mrec/sigproc"
+          "-iquote/home/aschmitz/Programs/mrec/sigproc.inc"
+          "-iquote/home/aschmitz/Programs/mrec/svsd"
+          "-iquote/home/aschmitz/Programs/mrec/svsdclidll"
+          "-iquote/home/aschmitz/Programs/mrec/svsdspec"
+          "-iquote/home/aschmitz/Programs/mrec/user.inc"
+          "-iquote/home/aschmitz/Programs/mrec/voc.inc"
+          "-iquote/home/aschmitz/Programs/mrec/wavelib"
+          "-iquote/home/aschmitz/Programs/mrec/wavelib.inc"
+          "-iquote/home/aschmitz/Programs/mrec/word.inc"
+          "-iquote/home/aschmitz/Programs/mrec/ilglcx"
+          "-iquote/home/aschmitz/Programs/mrec/sdspec/builtsrc/ilglcg"
+          )
+        )
 
   ;; Syntax checking.
-  ;; Should be automatic.nn
+  ;; Should be automatic.
   ;; http://www.flycheck.org/en/latest/
   (use-package flycheck
     :ensure t
     :config
     (global-flycheck-mode))
 
+  (setq flycheck-clang-args
+        '(
+          "-W"
+          "-Wall"
+          "-Wshadow"
+          "-Werror"
+          )
+        )
+  
+  (setq flycheck-clang-definitions
+        '(
+          "BUILD_COMPILER_DIR=\"ilglcg\""
+          "BUILD_DIR=\"neuraln\""
+          "BUILD_HAS_PAPI=1"
+          "DEBUG=1"
+          "DEBUGO=1"
+          "INHOUSE=1"
+          )
+        )
+
+  (setq flycheck-clang-includes
+        '(
+          "/home/aschmitz/Programs/mrec/mrecutil/mrec.h"
+          )
+        )
+  
+  (setq flycheck-clang-include-path
+        '(
+          "/home/aschmitz/Programs/mrec/alien/lint"
+          "/home/aschmitz/Programs/mrec/alien/pal"
+          "/home/aschmitz/Programs/mrec/alien/pal/common"
+          "/home/aschmitz/Programs/mrec/alien/pal/crc32"
+          "/home/aschmitz/Programs/mrec/alien/pal/linkedlist"
+          "/home/aschmitz/Programs/mrec/alien/pal/win32"
+          "/home/aschmitz/Programs/mrec/alien/papi"
+          "/home/aschmitz/Programs/mrec/alien/sort"
+          "/home/aschmitz/Programs/mrec/alien/xercesc/include/xercesc/util/MsgLoaders/Win32"
+          "/home/aschmitz/Programs/mrec/alien/zlib"
+          "/home/aschmitz/Programs/mrec/alien/zstd/common"
+          "/home/aschmitz/Programs/mrec/alien/zstd/compress"
+          "/home/aschmitz/Programs/mrec/alien/zstd/decompress"
+          "/home/aschmitz/Programs/mrec/alien/zstd/inc"
+          "/home/aschmitz/Programs/mrec/audiosrc"
+          "/home/aschmitz/Programs/mrec/audiosrc.inc"
+          "/home/aschmitz/Programs/mrec/bin/ilglcx/mrec.env/lib/python2.7/site-packages/wheel/test/headers.dist"
+          "/home/aschmitz/Programs/mrec/builtinc/ilglcx"
+          "/home/aschmitz/Programs/mrec/channel"
+          "/home/aschmitz/Programs/mrec/channel.inc"
+          "/home/aschmitz/Programs/mrec/credits"
+          "/home/aschmitz/Programs/mrec/dfutil"
+          "/home/aschmitz/Programs/mrec/fileutil"
+          "/home/aschmitz/Programs/mrec/frame.inc"
+          "/home/aschmitz/Programs/mrec/fst"
+          "/home/aschmitz/Programs/mrec/fstgraph"
+          "/home/aschmitz/Programs/mrec/fstgraph.inc"
+          "/home/aschmitz/Programs/mrec/fst.inc"
+          "/home/aschmitz/Programs/mrec/germ.inc"
+          "/home/aschmitz/Programs/mrec/hello1"
+          "/home/aschmitz/Programs/mrec/kernel"
+          "/home/aschmitz/Programs/mrec/lm"
+          "/home/aschmitz/Programs/mrec/lm.inc"
+          "/home/aschmitz/Programs/mrec/make.inc/ilglcx/MREC_ilglcx.env/lib/python2.7/site-packages/wheel/test/headers.dist"
+          "/home/aschmitz/Programs/mrec/mrecutil"
+          "/home/aschmitz/Programs/mrec/net"
+          "/home/aschmitz/Programs/mrec/net.inc"
+          "/home/aschmitz/Programs/mrec/neuraln"
+          "/home/aschmitz/Programs/mrec/neuraln.inc"
+          "/home/aschmitz/Programs/mrec/nistplay"
+          "/home/aschmitz/Programs/mrec/pel.inc"
+          "/home/aschmitz/Programs/mrec/phoneme.inc"
+          "/home/aschmitz/Programs/mrec/prefilt"
+          "/home/aschmitz/Programs/mrec/prefilt.inc"
+          "/home/aschmitz/Programs/mrec/pypkg/ilglcx/sphinx.env/lib/python2.7/site-packages/wheel/test/headers.dist"
+          "/home/aschmitz/Programs/mrec/rdspec"
+          "/home/aschmitz/Programs/mrec/recogctl"
+          "/home/aschmitz/Programs/mrec/sdapi"
+          "/home/aschmitz/Programs/mrec/sdclidll"
+          "/home/aschmitz/Programs/mrec/sdspec"
+          "/home/aschmitz/Programs/mrec/sdspec/builtsrc/ilglcx"
+          "/home/aschmitz/Programs/mrec/sdxg1"
+          "/home/aschmitz/Programs/mrec/sdxg2"
+          "/home/aschmitz/Programs/mrec/sdxgspec"
+          "/home/aschmitz/Programs/mrec/sigproc"
+          "/home/aschmitz/Programs/mrec/sigproc.inc"
+          "/home/aschmitz/Programs/mrec/svsd"
+          "/home/aschmitz/Programs/mrec/svsdclidll"
+          "/home/aschmitz/Programs/mrec/svsdspec"
+          "/home/aschmitz/Programs/mrec/user.inc"
+          "/home/aschmitz/Programs/mrec/voc.inc"
+          "/home/aschmitz/Programs/mrec/wavelib"
+          "/home/aschmitz/Programs/mrec/wavelib.inc"
+          "/home/aschmitz/Programs/mrec/word.inc"
+          "/home/aschmitz/Programs/mrec/ilglcx"
+          "/home/aschmitz/Programs/mrec/sdspec/builtsrc/ilglcg"
+          )
+        )
+  
   ;; Auto-completions.
   ;; There's also `C-M-i`, but this is async.
   ;; Also look at `company-flx` for better sorting.
@@ -201,43 +409,53 @@
     :config
     (global-company-mode))
 
-  ;; Language Server Protocol Plugin.
-  ;; The actual plugin used to communicate with cquery.
-  ;; https://github.com/emacs-lsp/lsp-mode
-  (use-package lsp-mode
-    :ensure t
-    )
+  ;; ;; Language Server Protocol Plugin.
+  ;; ;; The actual plugin used to communicate with cquery.
+  ;; ;; https://github.com/emacs-lsp/lsp-mode
+  ;; (use-package lsp-mode
+  ;;   :ensure t
+  ;;   :config
+  ;;   (setq lsp-prefer-flymake nil)
+  ;;   )
 
-  ;; Flycheck and other IDE-feature support for LSP.
-  ;; This has the "fancy features" and should be customized.
-  ;; Personally, I turned the symbol highlighting off.
-  ;; https://github.com/emacs-lsp/lsp-ui
-  (use-package lsp-ui
-    :ensure t
-    :config
-    (setq lsp-ui-sideline-ignore-duplicate t)
-    (add-hook 'lsp-mode-hook #'lsp-ui-mode))
+  ;; ;; Flycheck and other IDE-feature support for LSP.
+  ;; ;; This has the "fancy features" and should be customized.
+  ;; ;; Personally, I turned the symbol highlighting off.
+  ;; ;; https://github.com/emacs-lsp/lsp-ui
+  ;; (use-package lsp-ui
+  ;;   :ensure t
+  ;;   :config
+  ;;   (setq lsp-ui-sideline-ignore-duplicate t)
+  ;;   (add-hook 'lsp-mode-hook #'lsp-ui-mode))
 
-  ;; LSP backend for Company.
-  ;; https://github.com/tigersoldier/company-lsp
-  (use-package company-lsp
-    :ensure t
-    :config
-    (setq company-lsp-enable-recompletion t)
-    (add-to-list 'company-backends 'company-lsp))
+  ;; ;; LSP backend for Company.
+  ;; ;; https://github.com/tigersoldier/company-lsp
+  ;; (use-package company-lsp
+  ;;   :ensure t
+  ;;   :config
+  ;;   (setq company-lsp-enable-recompletion t)
+  ;;   (add-to-list 'company-backends 'company-lsp))
 
   ;; Client to configure and auto-start cquery.
   ;; https://github.com/cquery-project/emacs-cquery
-  (use-package cquery
-    :ensure t
-    :config
-    (setq cquery-executable "/home/linuxbrew/.linuxbrew/bin/cquery")
-    (setq cquery-extra-init-params '(:completion (:detailedLabel t))))
+  ;; (use-package cquery
+  ;;   :ensure t
+  ;;   :config
+  ;;   (setq cquery-executable "/home/linuxbrew/.linuxbrew/bin/cquery")
+  ;;   (setq cquery-extra-init-params '(:completion (:detailedLabel t))))
 
-  (require 'lsp-clients)
-  (require 'cquery)
-  (add-hook 'python-mode-hook 'lsp)
-  (add-hook 'c++-mode-hook 'lsp)
+  ;; (require 'lsp-clients)
+  ;; (require 'cquery)
+  ;; (setq cquery-executable "/home/linuxbrew/.linuxbrew/bin/cquery")
+  ;; ;; (require 'ccls)
+  ;; ;; (setq ccls-executable "/home/aschmitz/.local/bin/ccls")
+  ;; (add-hook 'python-mode-hook 'lsp)
+  ;; (add-hook 'c++-mode-hook 'lsp)
+
+  ;; (lsp-register-client
+  ;;  (make-lsp-client :new-connection (lsp-stdio-connection "~/bin/clojure-lsp")
+  ;;                   :major-modes '(clojure-mode)
+  ;;                   :server-id 'clojure-lsp))
 
   ;;
   ;; Helm mode
