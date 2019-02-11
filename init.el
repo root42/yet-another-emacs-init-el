@@ -94,6 +94,17 @@
     )
 
   ;;
+  ;; Projectile
+  ;;
+  (use-package projectile
+    :ensure t)
+  (projectile-mode +1)
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (use-package helm-projectile
+    :ensure t)
+  
+  ;;
   ;; Paredit stuff
   ;;
   (eval-after-load "paredit"
@@ -178,7 +189,15 @@
     (global-flycheck-mode))
   (use-package flycheck-rtags
     :ensure t)
-  
+  (setq rtags-autostart-diagnostics t)
+  (defun my-flycheck-rtags-setup ()
+    (flycheck-select-checker 'rtags)
+    (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
+    (setq-local flycheck-check-syntax-automatically nil))
+  (add-hook 'c-mode-hook #'my-flycheck-rtags-setup)
+  (add-hook 'c++-mode-hook #'my-flycheck-rtags-setup)
+  (add-hook 'objc-mode-hook #'my-flycheck-rtags-setup)
+
   ;; Auto-completions.
   ;; There's also `C-M-i`, but this is async.
   ;; Also look at `company-flx` for better sorting.
