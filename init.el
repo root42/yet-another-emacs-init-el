@@ -121,6 +121,27 @@
   (add-hook 'clojure-mode-hook 'paredit-mode)
 
   ;;
+  ;; Scala LSP
+  ;;
+  ;; (use-package lsp-mode
+  ;;   :ensure t)
+
+  ;; (use-package lsp-ui
+  ;;   :ensure t
+  ;;   :hook (lsp-mode . lsp-ui-mode))
+
+  ;; (use-package lsp-scala
+  ;;   :load-path "~/path/to/lsp-scala"
+  ;;   :after scala-mode
+  ;;   :demand t
+  ;;   :hook (scala-mode . lsp)
+  ;;   :init (setq lsp-scala-server-command "~/bin/metals-emacs"))
+
+  ;; (use-package sbt-mode
+  ;;   :ensure t
+  ;;   :commands sbt-start sbt-command)
+  
+  ;;
   ;; C++/C stuff
   ;;
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
@@ -221,6 +242,12 @@
     (global-set-key (kbd "C-c h") 'helm-mini)
     (helm-mode 1)
     )
+  (define-key helm-map (kbd "<left>") 'helm-previous-source)
+  (define-key helm-map (kbd "<right>") 'helm-next-source)
+  (customize-set-variable 'helm-imenu-lynx-style-map t)
+  (customize-set-variable 'helm-semantic-lynx-style-map t)
+  (customize-set-variable 'helm-occur-use-ioccur-style-keys t)
+  (customize-set-variable 'helm-grep-use-ioccur-style-keys t)
 
   (use-package highlight-symbol
     :ensure t)
