@@ -81,6 +81,7 @@
   (add-hook 'prog-mode-hook 'highlight-symbol-mode)
   (add-hook 'nxml-mode-hook 'linum-mode)
   (add-hook 'nxml-mode-hook 'hl-line-mode)
+  (add-hook 'yaml-mode-hook 'linum-mode)
   ;; Uncomment when this bug is fixed: https://github.com/alpaker/Fill-Column-Indicator/issues/54
   (add-hook 'prog-mode-hook 'fci-mode)
   
@@ -144,8 +145,11 @@
   ;;
   ;; C++/C stuff
   ;;
+  (defun set-tabs-to-four-spaces ()
+      (setq tab-width 4))
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
   (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
+  (add-hook 'c++-mode-hook 'set-tabs-to-four-spaces)
 
   ;;
   ;; rtags
