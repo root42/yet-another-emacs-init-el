@@ -152,6 +152,11 @@
   (add-hook 'c++-mode-hook 'set-tabs-to-four-spaces)
 
   ;;
+  ;; ReStructured Text
+  ;;
+  (add-to-list 'auto-mode-alist '("\\.hts\\'" . rst-mode))
+  
+  ;;
   ;; rtags
   ;;
   (use-package rtags
@@ -321,7 +326,14 @@
   ;;
   (require 'dired)
   (define-key dired-mode-map [mouse-2] 'dired-find-file)
-
+  
+  ;;
+  ;; Dockerfile-mode
+  ;;
+  (add-to-list 'load-path "~/Programs/dockerfile-mode/")
+  (require 'dockerfile-mode)
+  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+  
   ;;
   ;; Flyspell
   ;;
