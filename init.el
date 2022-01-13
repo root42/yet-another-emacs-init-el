@@ -48,7 +48,7 @@
   (when (memq window-system '(x))
     (set-fontset-font
      t 'symbol
-     (font-spec :family "Symbola") nil 'prepend)    
+     (font-spec :family "Symbola") nil 'prepend)
     )
   
   ;;
@@ -56,7 +56,7 @@
   ;;
   (when (memq window-system '(mac ns))
     (exec-path-from-shell-initialize)
-    (setq ns-right-alternate-modifier nil)
+    (defvar ns-right-alternate-modifier nil)
     (global-set-key (kbd "A-SPC") 'just-one-space)
     (set-fontset-font
      t 'symbol
@@ -268,7 +268,7 @@
     :ensure t)
   
   ;;
-  ;; Global key shortcuts:  
+  ;; Global key shortcuts:
   ;;
   (global-set-key (kbd "<f2>") 'dabbrev-completion)
   (add-hook 'c-mode-common-hook
@@ -300,16 +300,18 @@
   ;;
   ;; Calendar
   ;;
+  (require 'calendar)
   (copy-face font-lock-constant-face 'calendar-iso-week-face)
   (set-face-attribute 'calendar-iso-week-face nil
 		      :height 1.0)
-  (setq calendar-intermonth-text
-	'(propertize
-	  (format "%2d"
-		  (car
-		   (calendar-iso-from-absolute
-		    (calendar-absolute-from-gregorian (list month day year)))))
-	  'font-lock-face 'calendar-iso-week-face))
+  (defvar calendar-week-start-day 1)
+  (defvar calendar-intermonth-text
+    '(propertize
+      (format "%2d"
+              (car
+               (calendar-iso-from-absolute
+                (calendar-absolute-from-gregorian (list month day year)))))
+      'font-lock-face 'font-lock-function-name-face))
 
   ;;
   ;; Compilation buffer
@@ -342,7 +344,8 @@
      (define-key flyspell-mouse-map [down-mouse-3] #'flyspell-correct-word)
      (define-key flyspell-mouse-map [mouse-3] #'undefined)
      (define-key flyspell-mouse-map [down-mouse-2] nil)
-     (define-key flyspell-mouse-map [mouse-2] nil)))
+     (define-key flyspell-mouse-map [mouse-2] nil)
+     ))
 
   ;;
   ;; xml mode
@@ -429,3 +432,4 @@ will be killed."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
