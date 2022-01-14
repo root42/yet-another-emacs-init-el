@@ -68,10 +68,6 @@
   ;; 
   (add-hook 'text-mode-hook 'flyspell-mode)
   (add-hook 'text-mode-hook 'hl-line-mode)
-  (eval-after-load "flyspell"
-    '(progn
-       (define-key flyspell-mouse-map (kbd "<C-down-mouse-3>") #'flyspell-correct-word)
-       (define-key flyspell-mouse-map (kbd "<C-mouse-3>") 'undefined) ))
   
   ;;
   ;; Programming stuff
@@ -120,27 +116,6 @@
   ;;
   (add-hook 'lisp-mode-hook 'paredit-mode)
   (add-hook 'clojure-mode-hook 'paredit-mode)
-
-  ;;
-  ;; Scala LSP
-  ;;
-  ;; (use-package lsp-mode
-  ;;   :ensure t)
-
-  ;; (use-package lsp-ui
-  ;;   :ensure t
-  ;;   :hook (lsp-mode . lsp-ui-mode))
-
-  ;; (use-package lsp-scala
-  ;;   :load-path "~/path/to/lsp-scala"
-  ;;   :after scala-mode
-  ;;   :demand t
-  ;;   :hook (scala-mode . lsp)
-  ;;   :init (setq lsp-scala-server-command "~/bin/metals-emacs"))
-
-  ;; (use-package sbt-mode
-  ;;   :ensure t
-  ;;   :commands sbt-start sbt-command)
   
   ;;
   ;; C++/C stuff
@@ -337,17 +312,6 @@
   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
   
   ;;
-  ;; Flyspell
-  ;;
-  (eval-after-load "flyspell"
-  '(progn
-     (define-key flyspell-mouse-map [down-mouse-3] #'flyspell-correct-word)
-     (define-key flyspell-mouse-map [mouse-3] #'undefined)
-     (define-key flyspell-mouse-map [down-mouse-2] nil)
-     (define-key flyspell-mouse-map [mouse-2] nil)
-     ))
-
-  ;;
   ;; xml mode
   ;;
   (add-to-list 'auto-mode-alist
@@ -433,3 +397,5 @@ will be killed."
  ;; If there is more than one, they won't work right.
  )
 
+(provide 'init)
+;;; init.el ends here
