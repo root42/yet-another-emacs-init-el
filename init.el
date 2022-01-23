@@ -52,9 +52,14 @@
     )
   
   ;;
-  ;; OS X specifics
+  ;; macOS specifics
   ;;
+  (when (and (equal emacs-version "27.2")
+             (eql system-type 'darwin))
+    (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
   (when (memq window-system '(mac ns))
+    (use-package exec-path-from-shell
+      :ensure t)
     (exec-path-from-shell-initialize)
     (defvar ns-right-alternate-modifier nil)
     (global-set-key (kbd "A-SPC") 'just-one-space)
@@ -126,6 +131,12 @@
   (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
   (add-hook 'c++-mode-hook 'set-tabs-to-four-spaces)
 
+  ;;
+  ;; asm-mode
+  ;;
+  (require 'nasm-mode)
+  (add-to-list 'auto-mode-alist '("\\.asm\\'" . nasm-mode))
+  
   ;;
   ;; ReStructured Text
   ;;
@@ -307,9 +318,9 @@
   ;;
   ;; Dockerfile-mode
   ;;
-  (add-to-list 'load-path "~/Programs/dockerfile-mode/")
-  (require 'dockerfile-mode)
-  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+  ;; (add-to-list 'load-path "~/Programs/dockerfile-mode/")
+  ;; (require 'dockerfile-mode)
+  ;; (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
   
   ;;
   ;; xml mode
