@@ -24,11 +24,6 @@
   ;; make sure to have downloaded archive description.
   (when (not package-archive-contents)
     (package-refresh-contents nil))
-
-  ;;
-  ;; Nuance setup
-  ;;
-  ;;(load-file (format "%snuance.el" user-true-init-file-directory))
   
   ;;
   ;; Set up the coding system
@@ -69,6 +64,16 @@
     )
 
   ;;
+  ;; Scrolling
+  ;;
+  (setq scroll-margin 1
+	scroll-step 1
+	scroll-conservatively 10000
+	scroll-preserve-screen-position 1)
+  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ; one line at a time
+  (setq mouse-wheel-progressive-speed nil)            ; don't accelerate scrolling
+  
+  ;;
   ;; Text stuff
   ;; 
   (add-hook 'text-mode-hook 'flyspell-mode)
@@ -95,6 +100,10 @@
       )
     )
 
+  (use-package nano-modeline
+    :ensure t)
+  (nano-modeline-mode--activate)
+  
   ;;
   ;; Projectile
   ;;
@@ -203,13 +212,25 @@
     :ensure t
     :config
     (global-flycheck-mode))
+
+  ;; (use-package flycheck-clangcheck
+  ;;   :ensure t)
+  ;; (defun my-flycheck-setup()
+  ;;   (setq-local flycheck-c/c++-clangcheck-executable "/home/linuxbrew/.linuxbrew/bin/clang-check")
+  ;;   (setq-local flycheck-clangcheck-analyze t)
+  ;;   (setq-local flycheck-clangcheck-build-path "/home/aschmitz/Programs/textproc")
+  ;;   (flycheck-select-checker 'c/c++-clangcheck))
+  ;; (add-hook 'c-mode-hook #'my-flycheck-setup)
+  ;; (add-hook 'c++-mode-hook #'my-flycheck-setup)
+  
   (use-package flycheck-rtags
     :ensure t)
   (setq rtags-autostart-diagnostics t)
   (defun my-flycheck-rtags-setup ()
     (flycheck-select-checker 'rtags)
     (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
-    (setq-local flycheck-check-syntax-automatically nil))
+    (setq-local flycheck-check-syntax-automatically nil)
+    )
   (add-hook 'c-mode-hook #'my-flycheck-rtags-setup)
   (add-hook 'c++-mode-hook #'my-flycheck-rtags-setup)
   (add-hook 'objc-mode-hook #'my-flycheck-rtags-setup)
