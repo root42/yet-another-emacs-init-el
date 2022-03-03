@@ -303,7 +303,8 @@
   ;; Emacs server
   ;;
   (server-start)
-  
+  (add-hook 'server-switch-hook #'raise-frame)
+
   ;;
   ;; Calendar
   ;;
