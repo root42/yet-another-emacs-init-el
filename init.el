@@ -88,8 +88,7 @@
   (add-hook 'nxml-mode-hook 'linum-mode)
   (add-hook 'nxml-mode-hook 'hl-line-mode)
   (add-hook 'yaml-mode-hook 'linum-mode)
-  ;; Uncomment when this bug is fixed: https://github.com/alpaker/Fill-Column-Indicator/issues/54
-  (add-hook 'prog-mode-hook 'fci-mode)
+  (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
   
   (defun comment-or-uncomment-line-or-region ()
     "Comments or uncomments the current line."
@@ -143,7 +142,8 @@
   ;;
   ;; asm-mode
   ;;
-  (require 'nasm-mode)
+  (use-package nasm-mode
+    :ensure t)
   (add-to-list 'auto-mode-alist '("\\.asm\\'" . nasm-mode))
   
   ;;
@@ -272,6 +272,9 @@
     :ensure t)
 
   (use-package magit
+    :ensure t)
+
+  (use-package cff
     :ensure t)
   
   ;;
