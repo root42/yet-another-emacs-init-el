@@ -129,6 +129,12 @@
   ;;
   (add-hook 'lisp-mode-hook 'paredit-mode)
   (add-hook 'clojure-mode-hook 'paredit-mode)
+
+  ;;
+  ;; CMake
+  ;;
+  (use-package cmake-mode
+    :ensure t)
   
   ;;
   ;; C++/C stuff
