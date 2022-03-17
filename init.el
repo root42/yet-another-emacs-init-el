@@ -135,6 +135,12 @@
   ;;
   (use-package cmake-mode
     :ensure t)
+
+  ;;
+  ;; yaml
+  ;;
+  (use-package yaml-mode
+    :ensure t)
   
   ;;
   ;; C++/C stuff
