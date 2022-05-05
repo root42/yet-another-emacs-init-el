@@ -76,7 +76,7 @@
   ;;
   ;; Text stuff
   ;;
-  (indent-tabs-mode nil)
+  (setq indent-tabs-mode nil)
   (add-hook 'text-mode-hook 'flyspell-mode)
   (add-hook 'text-mode-hook 'hl-line-mode)
   
@@ -126,8 +126,10 @@
     )
 
   ;;
-  ;; Lisp stuff
+  ;; Lisp & Clojure stuff
   ;;
+  (use-package cider
+    :ensure t)
   (add-hook 'lisp-mode-hook 'paredit-mode)
   (add-hook 'clojure-mode-hook 'paredit-mode)
 
