@@ -90,6 +90,7 @@
   (add-hook 'nxml-mode-hook 'hl-line-mode)
   (add-hook 'yaml-mode-hook 'linum-mode)
   (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
+  (add-hook 'prog-mode-hook 'subword-mode)
   
   (defun comment-or-uncomment-line-or-region ()
     "Comments or uncomments the current line."
