@@ -10,80 +10,22 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(c-basic-offset 3)
- '(c-default-style
-   (quote
-    ((java-mode . "java")
-     (awk-mode . "awk")
-     (other . "bsd"))))
- '(c-offsets-alist (quote ((arglist-intro . +) (arglist-close . 0))))
+ '(buffers-menu-show-directories 'unless-uniquify)
+ '(c-basic-offset 4)
+ '(c-default-style '((java-mode . "java") (awk-mode . "awk") (other . "bsd")))
+ '(c-offsets-alist '((arglist-intro . +) (arglist-close . +)))
  '(calendar-week-start-day 1)
- '(column-number-mode t)
- '(custom-enabled-themes (quote (aixigo-misterioso)))
- '(electric-indent-mode t)
- '(ecb-compile-window-height 10)
- '(ecb-layout-name "left3")
- '(ecb-options-version "2.40")
- '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
- '(ecb-tip-of-the-day nil)
- '(fill-column 110)
- '(global-auto-complete-mode t)
- '(global-subword-mode t)
- '(indent-tabs-mode nil)
- '(ispell-dictionary "deutsch")
- '(ispell-program-name "aspell")
- '(keyboard-coding-system (quote utf-8))
- '(mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
- '(ns-alternate-modifier (quote alt))
- '(ns-command-modifier (quote meta))
- '(nxml-attribute-indent 3)
- '(nxml-child-indent 3)
- '(nxml-outline-child-indent 3)
- '(scroll-conservatively 1000)
- '(semantic-complete-inline-analyzer-idle-displayor-class (quote semantic-displayor-traditional))
- '(semantic-completion-displayor-format-tag-function (quote ignore))
- '(server-mode t)
- '(sgml-basic-offset 3)
- '(show-paren-mode t)
- '(standard-indent 3)
- '(tabbar-mode t nil (tabbar))
- '(tabbar-mwheel-mode t nil (tabbar))
- '(tabbar-scroll-left-button
-   (quote
-    (("[<]"
-      (:type pbm :data "P2 13 13 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255
-255 255 255 255 255 255 255 255 128 16 48 255 255 255 255 255 255 255
-255 144 28 86 128 0 255 255 255 255 255 255 160 44 92 159 135 113 0
-255 255 255 255 160 44 97 165 144 129 120 117 0 255 255 176 44 98 175
-174 146 127 126 127 128 0 255 255 0 160 184 156 143 136 134 135 137
-138 0 255 255 176 32 67 144 146 144 145 146 148 149 0 255 255 255 255
-160 42 75 140 154 158 159 160 0 255 255 255 255 255 255 160 40 74 154
-170 171 0 255 255 255 255 255 255 255 255 160 41 82 163 0 255 255 255
-255 255 255 255 255 255 255 160 32 48 255 255 255 255 255 255 255 255
-255 255 255 255 255 255
-" :ascent center :mask
-(heuristic t)
-:margin 1))
-     "[=]")))
-'(tabbar-scroll-right-button
-(quote
- (("[>]"
-   (:type pbm :data "P2 13 13 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255
-48 32 160 255 255 255 255 255 255 255 255 255 255 44 161 71 32 160 255
-255 255 255 255 255 255 255 36 157 163 145 62 32 160 255 255 255 255
-255 255 30 128 133 137 142 124 50 32 160 255 255 255 255 29 120 121
-124 126 126 124 105 42 32 176 255 255 31 126 127 128 128 128 128 126
-124 89 32 255 255 33 134 135 136 137 137 138 119 49 32 176 255 255 34
-143 144 145 146 128 54 32 160 255 255 255 255 36 152 153 134 57 32 160
-255 255 255 255 255 255 38 141 60 32 160 255 255 255 255 255 255 255
-255 48 32 160 255 255 255 255 255 255 255 255 255 255 255 255 255 255
-255 255 255 255 255 255 255 255
-" :ascent center :mask
-(heuristic t)
-:margin 1))
-  "[=]")))
- '(tabbar-use-images nil)
- '(truncate-lines t)
- '(visible-bell t))
+ '(custom-enabled-themes '(modus-vivendi))
+ '(custom-safe-themes
+   '("a0415d8fc6aeec455376f0cbcc1bee5f8c408295d1c2b9a1336db6947b89dd98" "02fff7eedb18d38b8fd09a419c579570673840672da45b77fde401d8708dc6b5" "eb785a887e90c10848466a1f825fcb57f61672c0b70e2f0fd7c62610ad044277" "e27c391095dcee30face81de5c8354afb2fbe69143e1129109a16d17871fc055" "dad622637530638a2140b83812e159a06b4791eb2f67ffd4abb4ff671b062d0b" "5d6cc3e22172f051d68c0c95d79f3dff0e800f2d107f6f6b9220ed5380285c50" "5a9b3792b3a4d2d15a671841ab1c9d74861c660c9b43d099280cd88f0b551549" "7397cc72938446348521d8061d3f2e288165f65a2dbb6366bb666224de2629bb" "9f1d0627e756e58e0263fe3f00b16d8f7b2aca0882faacdc20ddd56a95acb7c2" "c0f4b66aa26aa3fded1cbefe50184a08f5132756523b640f68f3e54fd5f584bd" "2642a1b7f53b9bb34c7f1e032d2098c852811ec2881eec2dc8cc07be004e45a0" default))
+ '(package-selected-packages '(use-package))
+ '(rtags-path "/home/linuxbrew/.linuxbrew/bin/")
+ '(truncate-lines t))
 
 ;;; custom.el ends here
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
