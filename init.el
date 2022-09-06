@@ -272,6 +272,7 @@
     :ensure t
     :config
     (global-set-key (kbd "C-c h") 'helm-mini)
+    (global-set-key (kbd "M-x") 'helm-M-x)
     (helm-mode 1)
     )
   (define-key helm-map (kbd "<left>") 'helm-previous-source)
