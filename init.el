@@ -127,6 +127,12 @@
     )
 
   ;;
+  ;; Modus Themes
+  ;;
+  (use-package modus-themes
+    :ensure t)
+  
+  ;;
   ;; Lisp & Clojure stuff
   ;;
   (use-package cider
