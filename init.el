@@ -36,6 +36,7 @@
   (setq custom-file (expand-file-name "custom.el" (or (file-name-directory user-init-file) default-directory)))
   (load custom-file)
   (global-set-key (kbd "<f1>") '(lambda () (interactive) (load custom-file)))
+  (setq-default truncate-lines t)
 
   ;;
   ;; Linux/Unix specifics
@@ -76,7 +77,7 @@
   ;;
   ;; Text stuff
   ;;
-  (setq indent-tabs-mode nil)
+  (setq-default indent-tabs-mode nil)
   (add-hook 'text-mode-hook 'flyspell-mode)
   (add-hook 'text-mode-hook 'hl-line-mode)
   
