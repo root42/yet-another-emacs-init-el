@@ -381,6 +381,7 @@
   ;;
   ;; Buffer menu
   ;;
+  (setq-default mouse-buffer-menu-mode-mult 0)
   (defun mouse-buffer-menu-alist (buffers)
   (let (tail
     (maxlen 0)
