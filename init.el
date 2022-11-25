@@ -39,6 +39,13 @@
   (setq-default truncate-lines t)
 
   ;;
+  ;; Themes
+  ;;
+  (use-package modus-themes
+    :ensure t)
+  (modus-themes-load-vivendi)
+
+  ;;
   ;; Linux/Unix specifics
   ;;
   (when (memq window-system '(x))
