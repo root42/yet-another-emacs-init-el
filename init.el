@@ -332,7 +332,8 @@
   (global-set-key (kbd "s-<left>") 'previous-buffer)
   (global-set-key (kbd "s-<right>") 'next-buffer)
   (global-set-key (kbd "C-/") 'comment-or-uncomment-line-or-region)
-
+  (setq-default rtags-path "/home/linuxbrew/.linuxbrew/bin/")
+  
   ;;
   ;; Emacs server
   ;;
