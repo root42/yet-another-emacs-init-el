@@ -66,6 +66,8 @@
     (exec-path-from-shell-initialize)
     (defvar ns-right-alternate-modifier nil)
     (global-set-key (kbd "A-SPC") 'just-one-space)
+    (setq ns-alternate-modifier 'alt)
+    (setq ns-command-modifier 'meta)
     (set-fontset-font
      t 'symbol
      (font-spec :family "Apple Color Emoji") nil 'prepend)
