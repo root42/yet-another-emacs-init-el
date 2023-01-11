@@ -24,6 +24,8 @@
   ;; make sure to have downloaded archive description.
   (when (not package-archive-contents)
     (package-refresh-contents nil))
+  (or (package-installed-p 'use-package)
+      (package-install 'use-package))
   
   ;;
   ;; Set up the coding system
