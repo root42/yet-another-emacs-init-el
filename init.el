@@ -43,8 +43,8 @@
   ;;
   (use-package modus-themes
     :ensure t)
-  (modus-themes-load-vivendi)
-
+  (load-theme 'modus-vivendi)
+  
   ;;
   ;; Linux/Unix specifics
   ;;
