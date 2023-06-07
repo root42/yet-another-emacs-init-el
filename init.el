@@ -95,14 +95,15 @@
   ;;
   ;; Programming stuff
   ;;
+  (add-hook 'nxml-mode-hook 'linum-mode)
+  (add-hook 'nxml-mode-hook 'hl-line-mode)
   (add-hook 'prog-mode-hook 'linum-mode)
   (add-hook 'prog-mode-hook 'hl-line-mode)
   (add-hook 'prog-mode-hook 'highlight-symbol-mode)
-  (add-hook 'nxml-mode-hook 'linum-mode)
-  (add-hook 'nxml-mode-hook 'hl-line-mode)
-  (add-hook 'yaml-mode-hook 'linum-mode)
   (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
   (add-hook 'prog-mode-hook 'subword-mode)
+  (add-hook 'yaml-mode-hook 'linum-mode)
+  (add-hook 'yaml-mode-hook 'highlight-symbol-mode)
   
   (defun comment-or-uncomment-line-or-region ()
     "Comments or uncomments the current line."
@@ -336,7 +337,6 @@
   (global-set-key (kbd "s-<left>") 'previous-buffer)
   (global-set-key (kbd "s-<right>") 'next-buffer)
   (global-set-key (kbd "C-/") 'comment-or-uncomment-line-or-region)
-  (setq-default rtags-path "/home/linuxbrew/.linuxbrew/bin/")
   
   ;;
   ;; Emacs server
