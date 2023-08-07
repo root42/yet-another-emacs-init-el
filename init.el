@@ -95,14 +95,14 @@
   ;;
   ;; Programming stuff
   ;;
-  (add-hook 'nxml-mode-hook 'line-number-mode)
+  (add-hook 'nxml-mode-hook 'display-line-numbers-mode)
   (add-hook 'nxml-mode-hook 'hl-line-mode)
-  (add-hook 'prog-mode-hook 'line-number-mode)
+  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
   (add-hook 'prog-mode-hook 'hl-line-mode)
   (add-hook 'prog-mode-hook 'highlight-symbol-mode)
   (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
   (add-hook 'prog-mode-hook 'subword-mode)
-  (add-hook 'yaml-mode-hook 'line-number-mode)
+  (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
   (add-hook 'yaml-mode-hook 'highlight-symbol-mode)
   
   (defun comment-or-uncomment-line-or-region ()
