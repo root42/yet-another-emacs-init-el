@@ -121,6 +121,7 @@
   (add-hook 'prog-mode-hook #'nano-modeline-prog-mode)
   (nano-modeline-text-mode t)
   (require 'nano-modeline)
+  (setq nano-modeline-position 'nano-modeline-footer)
   
   ;;
   ;; Projectile
