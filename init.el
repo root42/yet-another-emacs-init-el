@@ -114,13 +114,13 @@
       )
     )
 
-  ;; (use-package nano-theme
-  ;;   :ensure t)
-  ;; (use-package nano-modeline
-  ;;   :ensure t)
-  ;; (add-hook 'prog-mode-hook #'nano-modeline-prog-mode)
-  ;; (nano-modeline-text-mode t)
-  ;; (require 'nano-modeline)
+  (use-package nano-theme
+    :ensure t)
+  (use-package nano-modeline
+    :ensure t)
+  (add-hook 'prog-mode-hook #'nano-modeline-prog-mode)
+  (nano-modeline-text-mode t)
+  (require 'nano-modeline)
   
   ;;
   ;; Projectile
