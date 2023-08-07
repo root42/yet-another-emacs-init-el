@@ -95,14 +95,14 @@
   ;;
   ;; Programming stuff
   ;;
-  (add-hook 'nxml-mode-hook 'linum-mode)
+  (add-hook 'nxml-mode-hook 'line-number-mode)
   (add-hook 'nxml-mode-hook 'hl-line-mode)
-  (add-hook 'prog-mode-hook 'linum-mode)
+  (add-hook 'prog-mode-hook 'line-number-mode)
   (add-hook 'prog-mode-hook 'hl-line-mode)
   (add-hook 'prog-mode-hook 'highlight-symbol-mode)
   (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
   (add-hook 'prog-mode-hook 'subword-mode)
-  (add-hook 'yaml-mode-hook 'linum-mode)
+  (add-hook 'yaml-mode-hook 'line-number-mode)
   (add-hook 'yaml-mode-hook 'highlight-symbol-mode)
   
   (defun comment-or-uncomment-line-or-region ()
@@ -114,9 +114,13 @@
       )
     )
 
-  (use-package nano-modeline
-    :ensure t)
-  (nano-modeline-mode--activate)
+  ;; (use-package nano-theme
+  ;;   :ensure t)
+  ;; (use-package nano-modeline
+  ;;   :ensure t)
+  ;; (add-hook 'prog-mode-hook #'nano-modeline-prog-mode)
+  ;; (nano-modeline-text-mode t)
+  ;; (require 'nano-modeline)
   
   ;;
   ;; Projectile
