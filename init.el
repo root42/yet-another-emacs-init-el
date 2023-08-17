@@ -253,27 +253,28 @@
     :config
     (global-flycheck-mode))
 
-  ;; (use-package flycheck-clangcheck
-  ;;   :ensure t)
-  ;; (defun my-flycheck-setup()
-  ;;   (setq-local flycheck-c/c++-clangcheck-executable "/home/linuxbrew/.linuxbrew/bin/clang-check")
-  ;;   (setq-local flycheck-clangcheck-analyze t)
-  ;;   (setq-local flycheck-clangcheck-build-path "/home/aschmitz/Programs/textproc")
-  ;;   (flycheck-select-checker 'c/c++-clangcheck))
-  ;; (add-hook 'c-mode-hook #'my-flycheck-setup)
-  ;; (add-hook 'c++-mode-hook #'my-flycheck-setup)
-  
-  (use-package flycheck-rtags
+  (use-package flycheck-clangcheck
     :ensure t)
-  (setq rtags-autostart-diagnostics t)
-  (defun my-flycheck-rtags-setup ()
-    (flycheck-select-checker 'rtags)
-    (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
-    (setq-local flycheck-check-syntax-automatically nil)
-    )
-  (add-hook 'c-mode-hook #'my-flycheck-rtags-setup)
-  (add-hook 'c++-mode-hook #'my-flycheck-rtags-setup)
-  (add-hook 'objc-mode-hook #'my-flycheck-rtags-setup)
+  (defun my-select-clangcheck-for-checker ()
+    "Select clang-check for flycheck's checker."
+    (flycheck-set-checker-executable 'c/c++-clangcheck
+                                     "/home/linuxbrew/.linuxbrew/opt/llvm@13/bin/clang-check")
+    (flycheck-select-checker 'c/c++-clangcheck))
+
+  (add-hook 'c-mode-hook #'my-select-clangcheck-for-checker)
+  (add-hook 'c++-mode-hook #'my-select-clangcheck-for-checker)
+  
+  ;; (use-package flycheck-rtags
+  ;;   :ensure t)
+  ;; (setq rtags-autostart-diagnostics t)
+  ;; (defun my-flycheck-rtags-setup ()
+  ;;   (flycheck-select-checker 'rtags)
+  ;;   (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
+  ;;   (setq-local flycheck-check-syntax-automatically nil)
+  ;;   )
+  ;; (add-hook 'c-mode-hook #'my-flycheck-rtags-setup)
+  ;; (add-hook 'c++-mode-hook #'my-flycheck-rtags-setup)
+  ;; (add-hook 'objc-mode-hook #'my-flycheck-rtags-setup)
 
   ;; Auto-completions.
   ;; There's also `C-M-i`, but this is async.
