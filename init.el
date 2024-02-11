@@ -74,6 +74,9 @@
      t 'symbol
      (font-spec :family "Apple Color Emoji") nil 'prepend)
     )
+  (setq mac-option-modifier nil
+      mac-command-modifier 'meta
+      x-select-enable-clipboard t)
 
   ;;
   ;; Scrolling
