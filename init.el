@@ -37,7 +37,7 @@
   ;;
   (setq custom-file (expand-file-name "custom.el" (or (file-name-directory user-init-file) default-directory)))
   (load custom-file)
-  (global-set-key (kbd "<f1>") '(lambda () (interactive) (load custom-file)))
+  (global-set-key (kbd "<f1>") #'(lambda () (interactive) (load custom-file)))
   (setq-default truncate-lines t)
 
   ;;
@@ -61,6 +61,7 @@
   ;;
   (when (and (equal emacs-version "27.2")
              (eql system-type 'darwin))
+    (defvar gnutls-algorithm-priority)
     (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
   (when (memq window-system '(mac ns))
     (use-package exec-path-from-shell
@@ -68,6 +69,8 @@
     (exec-path-from-shell-initialize)
     (defvar ns-right-alternate-modifier nil)
     (global-set-key (kbd "A-SPC") 'just-one-space)
+    (defvar ns-alternate-modifier)
+    (defvar ns-command-modifier)
     (setq ns-alternate-modifier 'alt)
     (setq ns-command-modifier 'meta)
     (set-fontset-font
@@ -121,9 +124,9 @@
     :ensure t)
   (use-package nano-modeline
     :ensure t)
+  (require 'nano-modeline)
   (add-hook 'prog-mode-hook #'nano-modeline-prog-mode)
   (nano-modeline-text-mode t)
-  (require 'nano-modeline)
   (setq nano-modeline-position 'nano-modeline-footer)
   
   ;;
@@ -272,7 +275,7 @@
   ;;
   (global-set-key (kbd "<f2>") 'dabbrev-completion)
   (add-hook 'c-mode-common-hook
-	    '(lambda ()
+	    #'(lambda ()
 	       (define-key c-mode-base-map (kbd "<f3>") 'cff-find-other-file)))
   (global-set-key (kbd "<f4>") (lambda() (interactive) (switch-to-buffer (other-buffer (current-buffer) nil))))
   (global-set-key (kbd "<f7>")   'fd-switch-dictionary)
@@ -286,7 +289,7 @@
   (global-set-key (kbd "M->") (lambda() (interactive) (other-frame -1)))
   (global-set-key (kbd "M-/") 'xref-find-references)
   (global-set-key (kbd "C-<return>") 'company-complete)
-  (global-set-key (kbd "C-x C-o") '(lambda() (interactive (other-window -1))))
+  (global-set-key (kbd "C-x C-o") #'(lambda() (interactive (other-window -1))))
   (global-set-key (kbd "C-x C-f") 'helm-find-files)
   (global-set-key (kbd "s-<left>") 'previous-buffer)
   (global-set-key (kbd "s-<right>") 'next-buffer)
