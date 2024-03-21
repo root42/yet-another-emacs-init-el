@@ -210,10 +210,10 @@
   ;; Syntax checking.
   ;; Should be automatic.
   ;; http://www.flycheck.org/en/latest/
-  (use-package flycheck
-    :ensure t
-    :config
-    (global-flycheck-mode))
+  ;; (use-package flycheck
+  ;;   :ensure t
+  ;;   :config
+  ;;   (global-flycheck-mode))
     
   ;; (use-package flycheck-rtags
   ;;   :ensure t)
@@ -227,6 +227,15 @@
   ;; (add-hook 'c++-mode-hook #'my-flycheck-rtags-setup)
   ;; (add-hook 'objc-mode-hook #'my-flycheck-rtags-setup)
 
+  ;;
+  ;; Flymake
+  ;;
+  (use-package consult
+    :ensure t
+    :config
+    (global-set-key (kbd "M-g f") 'consult-flymake)
+    ) 
+  
   ;; Auto-completions.
   ;; There's also `C-M-i`, but this is async.
   ;; Also look at `company-flx` for better sorting.
