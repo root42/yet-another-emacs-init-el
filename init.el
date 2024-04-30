@@ -39,6 +39,7 @@
   (load custom-file)
   (global-set-key (kbd "<f1>") #'(lambda () (interactive) (load custom-file)))
   (setq-default truncate-lines t)
+  (setq native-comp-async-report-warnings-errors 'silent)
 
   ;;
   ;; Themes
