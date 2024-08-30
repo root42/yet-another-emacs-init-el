@@ -204,8 +204,12 @@
   (use-package eglot
     :ensure t)
   (add-to-list 'eglot-server-programs '((c++-mode c-mode) "/home/linuxbrew/.linuxbrew/opt/llvm@13/bin/clangd"))
-  (add-hook 'c-mode-hook 'eglot-ensure)
-  (add-hook 'c++-mode-hook 'eglot-ensure)
+  (add-hook
+   'c-mode-common-hook
+   (lambda ()
+     (eglot-ensure)
+     (local-set-key (kbd "M-n") #'flymake-goto-next-error)
+     (local-set-key (kbd "M-p") #'flymake-goto-prev-error)))
  
 
   ;; Syntax checking.
