@@ -126,7 +126,17 @@
   (use-package nano-modeline
     :ensure t)
   (require 'nano-modeline)
-  (add-hook 'prog-mode-hook #'nano-modeline-prog-mode)
+  (defun my-nano-modeline-prog-mode (&optional default)
+    "Nano line for prog mode. Can be made DEFAULT mode."
+    (funcall nano-modeline-position
+             '((nano-modeline-buffer-status) " "
+               (nano-modeline-buffer-name) " "
+               (which-function) " "
+               (nano-modeline-git-info))
+             '((nano-modeline-cursor-position)
+               (nano-modeline-window-dedicated))
+             default))
+  (add-hook 'prog-mode-hook #'my-nano-modeline-prog-mode)
   (nano-modeline-text-mode t)
   (setq nano-modeline-position 'nano-modeline-footer)
   
