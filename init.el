@@ -129,7 +129,7 @@
   (defun my-nano-modeline-which-function (&optional name)
     "Which function are we in"
     (propertize
-     (or "" (which-function))
+     (or (which-function) "" )
      'face (nano-modeline-face 'name)))
   (defun my-nano-modeline-prog-mode (&optional default)
     "Nano line for prog mode. Can be made DEFAULT mode."
