@@ -126,12 +126,17 @@
   (use-package nano-modeline
     :ensure t)
   (require 'nano-modeline)
+  (defun nano-modeline-which-function (&optional name)
+    "Which function are we in"
+    (propertize
+     (which-function)
+     'face (nano-modeline-face 'name)))
   (defun my-nano-modeline-prog-mode (&optional default)
     "Nano line for prog mode. Can be made DEFAULT mode."
     (funcall nano-modeline-position
              '((nano-modeline-buffer-status) " "
                (nano-modeline-buffer-name) " "
-               (which-function) " "
+               (nano-modeline-which-function) " "
                (nano-modeline-git-info))
              '((nano-modeline-cursor-position)
                (nano-modeline-window-dedicated))
