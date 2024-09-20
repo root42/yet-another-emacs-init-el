@@ -295,6 +295,7 @@
 
   (use-package magit
     :ensure t)
+  (setq magit-log-margin '(t "%F %R" magit-log-margin-width t 18))
 
   (use-package cff
     :ensure t)
