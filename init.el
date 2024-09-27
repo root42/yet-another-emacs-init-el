@@ -46,7 +46,7 @@
   ;;
   (use-package modus-themes
     :ensure t)
-  (load-theme 'modus-vivendi)
+  (load-theme 'modus-vivendi-tinted)
   
   ;;
   ;; Linux/Unix specifics
