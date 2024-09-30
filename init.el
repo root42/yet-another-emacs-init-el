@@ -46,7 +46,7 @@
   ;;
   (use-package modus-themes
     :ensure t)
-  (load-theme 'modus-vivendi-tinted)
+  (modus-themes-select 'modus-vivendi-tinted)
   
   ;;
   ;; Linux/Unix specifics
@@ -165,12 +165,6 @@
        (define-key paredit-mode-map (kbd "<C-left>") nil)
        )
     )
-
-  ;;
-  ;; Modus Themes
-  ;;
-  (use-package modus-themes
-    :ensure t)
   
   ;;
   ;; Lisp & Clojure stuff
