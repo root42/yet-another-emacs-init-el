@@ -130,7 +130,8 @@
     "Which function are we in"
     (propertize
      (or (which-function) "" )
-     'face (nano-modeline-face 'name)))
+     'face `(:inherit ,nano-modeline-base-face
+                      :foreground "orange")))
   (defun my-nano-modeline-prog-mode (&optional default)
     "Nano line for prog mode. Can be made DEFAULT mode."
     (funcall nano-modeline-position
