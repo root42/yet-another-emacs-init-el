@@ -319,6 +319,7 @@
   (global-set-key (kbd "s-<left>") 'previous-buffer)
   (global-set-key (kbd "s-<right>") 'next-buffer)
   (global-set-key (kbd "C-/") 'comment-or-uncomment-line-or-region)
+  (global-set-key (kbd "<pause>") 'zone-nyan-preview)
   
   ;;
   ;; Emacs server
