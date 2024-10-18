@@ -213,7 +213,8 @@
   ;;
   (use-package eglot
     :ensure t)
-  (add-to-list 'eglot-server-programs '((c++-mode c-mode) "/home/linuxbrew/.linuxbrew/opt/llvm@13/bin/clangd"))
+  (add-to-list 'eglot-server-programs
+               '((c++-mode c-mode) . ("/home/linuxbrew/.linuxbrew/opt/llvm@19/bin/clangd" "-j" "2")))
   (add-hook
    'c-mode-common-hook
    (lambda ()
@@ -306,6 +307,7 @@
   (global-set-key (kbd "<f7>")   'fd-switch-dictionary)
   (global-set-key (kbd "<f8>") (lambda() (interactive) (kill-buffer (current-buffer))))
   (global-set-key (kbd "<f9>") 'compile)
+  (global-set-key (kbd "<f12>") '(lambda () (interactive) (modus-themes-select 'modus-vivendi-tinted)))
   (global-set-key (kbd "M-?") 'grep)
   (global-set-key (kbd "M-n") 'next-error)
   (global-set-key (kbd "C-c r n") 'rtags-next-match)
