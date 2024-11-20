@@ -126,10 +126,9 @@
     :ensure t)
   (use-package nano-modeline
     :ensure t)
-  (use-package hide-mode-line
-    :ensure t)
   (require 'nano-modeline)
-  (require 'hide-mode-line) ;; workaround for bug in nano-modeline
+  (setq nano-modeline-position 'nano-modeline-footer)
+  (setq mode-line-format nil)
   (defun my-nano-modeline-which-function (&optional name)
     "Which function are we in"
     (propertize
@@ -138,7 +137,6 @@
                       :foreground "orange")))
   (defun my-nano-modeline-prog-mode (&optional default)
     "Nano line for prog mode. Can be made DEFAULT mode."
-    (hide-mode-line-mode)
     (funcall nano-modeline-position
              '((nano-modeline-buffer-status) " "
                (nano-modeline-buffer-name) " "
@@ -149,7 +147,6 @@
              default))
   (add-hook 'prog-mode-hook #'my-nano-modeline-prog-mode)
   (nano-modeline-text-mode t)
-  (setq nano-modeline-position 'nano-modeline-footer)
   
   ;;
   ;; Projectile
