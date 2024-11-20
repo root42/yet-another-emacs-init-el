@@ -77,6 +77,7 @@
     (set-fontset-font
      t 'symbol
      (font-spec :family "Apple Color Emoji") nil 'prepend)
+    (setq ps-lpr-command "/Users/aschmitz/Programs/lpr-ps")
     )
   (setq mac-option-modifier nil
       mac-command-modifier 'meta
@@ -125,7 +126,10 @@
     :ensure t)
   (use-package nano-modeline
     :ensure t)
+  (use-package hide-mode-line
+    :ensure t)
   (require 'nano-modeline)
+  (require 'hide-mode-line) ;; workaround for bug in nano-modeline
   (defun my-nano-modeline-which-function (&optional name)
     "Which function are we in"
     (propertize
@@ -134,6 +138,7 @@
                       :foreground "orange")))
   (defun my-nano-modeline-prog-mode (&optional default)
     "Nano line for prog mode. Can be made DEFAULT mode."
+    (hide-mode-line-mode)
     (funcall nano-modeline-position
              '((nano-modeline-buffer-status) " "
                (nano-modeline-buffer-name) " "
@@ -214,7 +219,7 @@
   (use-package eglot
     :ensure t)
   (add-to-list 'eglot-server-programs
-               '((c++-mode c-mode) . ("/home/linuxbrew/.linuxbrew/opt/llvm@19/bin/clangd" "-j" "2")))
+               '((c++-mode c-mode) . ("clangd" "-j" "2")))
   (add-hook
    'c-mode-common-hook
    (lambda ()
