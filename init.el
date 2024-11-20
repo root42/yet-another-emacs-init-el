@@ -318,7 +318,7 @@
   (global-set-key (kbd "C-c r n") 'rtags-next-match)
   (global-set-key (kbd "C-c r N") 'rtags-previous-match)
   (global-set-key (kbd "M->") (lambda() (interactive) (other-frame 1)))
-  (global-set-key (kbd "M->") (lambda() (interactive) (other-frame -1)))
+  (global-set-key (kbd "M-<") (lambda() (interactive) (other-frame -1)))
   (global-set-key (kbd "M-/") 'xref-find-references)
   (global-set-key (kbd "C-<return>") 'company-complete)
   (global-set-key (kbd "C-x C-o") #'(lambda() (interactive (other-window -1))))
