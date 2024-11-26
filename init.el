@@ -216,7 +216,9 @@
   (use-package eglot
     :ensure t)
   (add-to-list 'eglot-server-programs
-               '((c++-mode c-mode) . ("clangd" "-j" "2")))
+               '((c++-mode c-mode) . ("clangd-15" "-j" "2")))
+  (add-to-list 'eglot-ignored-server-capabilities
+               :documentOnTypeFormattingProvider)
   (add-hook
    'c-mode-common-hook
    (lambda ()
