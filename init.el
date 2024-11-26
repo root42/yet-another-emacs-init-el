@@ -217,6 +217,10 @@
     :ensure t)
   (add-to-list 'eglot-server-programs
                '((c++-mode c-mode) . ("clangd-15" "-j" "2")))
+  ;; Disable code formatting while typing. Code can still be formatted
+  ;; using the eglot-format and eglot-format-buffer commands. Make
+  ;; sure to create a .clang-format configuration in your project
+  ;; directory first.
   (add-to-list 'eglot-ignored-server-capabilities
                :documentOnTypeFormattingProvider)
   (add-hook
