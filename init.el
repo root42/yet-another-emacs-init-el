@@ -297,6 +297,9 @@
 
   (use-package cff
     :ensure t)
+
+  (use-package zone-nyan
+    :ensure t)
   
   ;;
   ;; Global key shortcuts:
@@ -324,6 +327,7 @@
   (global-set-key (kbd "s-<right>") 'next-buffer)
   (global-set-key (kbd "C-/") 'comment-or-uncomment-line-or-region)
   (global-set-key (kbd "<pause>") 'zone-nyan-preview)
+  (global-set-key (kbd "<f15>") 'zone-nyan-preview)
   
   ;;
   ;; Emacs server
