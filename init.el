@@ -65,9 +65,6 @@
     (defvar gnutls-algorithm-priority)
     (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
   (when (memq window-system '(mac ns))
-    (use-package exec-path-from-shell
-      :ensure t)
-    (exec-path-from-shell-initialize)
     (defvar ns-right-alternate-modifier nil)
     (global-set-key (kbd "A-SPC") 'just-one-space)
     (defvar ns-alternate-modifier)
@@ -83,6 +80,13 @@
       mac-command-modifier 'meta
       x-select-enable-clipboard t)
 
+  ;;
+  ;; Fetch exec path from shell
+  ;;
+  (use-package exec-path-from-shell
+    :ensure t)
+  (exec-path-from-shell-initialize)
+  
   ;;
   ;; Scrolling
   ;;
@@ -178,6 +182,13 @@
   (add-hook 'clojure-mode-hook 'paredit-mode)
 
   ;;
+  ;; Golang
+  ;;
+  (use-package go-mode
+    :ensure t)
+  (add-hook 'go-mode-hook 'lsp-deferred)
+  
+  ;;
   ;; CMake
   ;;
   (use-package cmake-mode
@@ -216,14 +227,19 @@
   (use-package eglot
     :ensure t)
   (add-to-list 'eglot-server-programs
-               '((c++-mode c-mode) . ("clangd" "-j" "2")))
+               '((c++-mode c-mode) . ("clangd-15" "-j" "2")))
+  ;; Disable code formatting while typing. Code can still be formatted
+  ;; using the eglot-format and eglot-format-buffer commands. Make
+  ;; sure to create a .clang-format configuration in your project
+  ;; directory first.
+  (add-to-list 'eglot-ignored-server-capabilities
+               :documentOnTypeFormattingProvider)
   (add-hook
    'c-mode-common-hook
    (lambda ()
      (eglot-ensure)
      (local-set-key (kbd "M-n") #'flymake-goto-next-error)
      (local-set-key (kbd "M-p") #'flymake-goto-prev-error)))
- 
 
   ;; Syntax checking.
   ;; Should be automatic.
